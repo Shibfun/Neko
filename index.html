@@ -121,6 +121,7 @@
             touch-action: manipulation;
         }
         button:hover { background: #E07A5F; }
+        button:disabled { background: #555; cursor: not-allowed; }
         button.loading { opacity: 0.7; pointer-events: none; }
         .input-group { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
         input {
@@ -228,8 +229,8 @@
             <div class="section-title" id="feedStakeTitle">Stake FEED</div>
             <div class="button-group">
                 <button id="stakeFeedButton">Stake (10B FEED)</button>
-                <button id="unstakeFeedButton">Unstake</button>
-                <button id="claimFeedRewardsButton">Claim Rewards</button>
+                <button id="unstakeFeedButton" disabled>Unstake</button>
+                <button id="claimFeedRewardsButton" disabled>Claim Rewards</button>
             </div>
             <div class="info-panel" id="feedStakeInfo">FEED Staked: None | Rewards: 0 NEKO</div>
         </div>
@@ -237,8 +238,8 @@
             <div class="section-title" id="nekoStakeTitle">Stake NEKO</div>
             <div class="button-group">
                 <button id="stakeNekoButton">Stake</button>
-                <button id="unstakeNekoButton">Unstake</button>
-                <button id="claimNekoRewardsButton">Claim Rewards</button>
+                <button id="unstakeNekoButton" disabled>Unstake</button>
+                <button id="claimNekoRewardsButton" disabled>Claim Rewards</button>
             </div>
             <div class="input-group">
                 <input type="text" id="stakeNekoAmountInput" placeholder="Amount (Min 10000 NEKO)">
@@ -262,7 +263,7 @@
     <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
     <script>
         let web3, accounts, nekoContract, feedContract;
-        const NEKO_CONTRACT_ADDRESS = "0xCadC6DdCcB055847Ea125359DE8Db74A68c85746";
+        const NEKO_CONTRACT_ADDRESS = "0x7973efb17f03eb44C8BD624449A91cD9Abc8aE98";
         const FEED_CONTRACT_ADDRESS = "0xe9Cb2D7ADC24Fc59FE00D6C0A0669BDF16805Fe0";
         const NEKO_ABI = [
             {"inputs":[],"stateMutability":"nonpayable","type":"constructor"},
@@ -367,29 +368,37 @@
             const feedRewards = await nekoContract.methods.getFeedPendingRewards(accounts[0]).call();
             const nekoRewards = await nekoContract.methods.getNekoPendingRewards(accounts[0]).call();
             const totalRewards = parseFloat(web3.utils.fromWei(feedRewards, 'ether')) + parseFloat(web3.utils.fromWei(nekoRewards, 'ether'));
-            document.getElementById('rewardNeko').innerText = `Pending Rewards: ${totalRewards.toFixed(2)} NEKO`;
+            document.getElementById('rewardNeko').innerText = `Pending Rewards: ${totalRewards.toFixed(4)} NEKO`;
         }
 
         async function updateFeedStakeInfo() {
             if (!web3 || !nekoContract || !accounts) {
                 document.getElementById('feedStakeInfo').innerText = 'FEED Staked: None | Rewards: 0 NEKO';
+                document.getElementById('unstakeFeedButton').disabled = true;
+                document.getElementById('claimFeedRewardsButton').disabled = true;
                 return;
             }
             const stakeInfo = await nekoContract.methods.getFeedStakeInfo(accounts[0]).call();
             const amount = stakeInfo[0] === '0' ? 'None' : parseFloat(web3.utils.fromWei(stakeInfo[0], 'ether')).toFixed(2);
-            const reward = parseFloat(web3.utils.fromWei(stakeInfo[2], 'ether')).toFixed(2);
+            const reward = parseFloat(web3.utils.fromWei(stakeInfo[2], 'ether')).toFixed(4);
             document.getElementById('feedStakeInfo').innerText = `FEED Staked: ${amount} | Rewards: ${reward} NEKO`;
+            document.getElementById('unstakeFeedButton').disabled = stakeInfo[0] === '0';
+            document.getElementById('claimFeedRewardsButton').disabled = stakeInfo[0] === '0';
         }
 
         async function updateNekoStakeInfo() {
             if (!web3 || !nekoContract || !accounts) {
                 document.getElementById('nekoStakeInfo').innerText = 'NEKO Staked: None | Rewards: 0 NEKO';
+                document.getElementById('unstakeNekoButton').disabled = true;
+                document.getElementById('claimNekoRewardsButton').disabled = true;
                 return;
             }
             const stakeInfo = await nekoContract.methods.getNekoStakeInfo(accounts[0]).call();
             const amount = stakeInfo[0] === '0' ? 'None' : parseFloat(web3.utils.fromWei(stakeInfo[0], 'ether')).toFixed(2);
-            const reward = parseFloat(web3.utils.fromWei(stakeInfo[2], 'ether')).toFixed(2);
+            const reward = parseFloat(web3.utils.fromWei(stakeInfo[2], 'ether')).toFixed(4);
             document.getElementById('nekoStakeInfo').innerText = `NEKO Staked: ${amount} | Rewards: ${reward} NEKO`;
+            document.getElementById('unstakeNekoButton').disabled = stakeInfo[0] === '0';
+            document.getElementById('claimNekoRewardsButton').disabled = stakeInfo[0] === '0';
         }
 
         async function updateUserAddress() {
@@ -464,7 +473,7 @@
                 await feedContract.methods.approve(NEKO_CONTRACT_ADDRESS, stakeAmount).send({ from: accounts[0] });
                 showModal('Staking 10B FEED... ⛏️');
                 await nekoContract.methods.stakeFeed().send({ from: accounts[0] });
-                showModal('FEED staked successfully! 🚀');
+                showModal('Successfully staked 10B FEED! 🚀');
                 updateNekoBalance();
                 updateFeedStakeInfo();
                 updatePendingRewards();
@@ -485,7 +494,7 @@
                 unstakeButton.classList.add('loading');
                 showModal('Unstaking FEED and claiming rewards... 💸');
                 await nekoContract.methods.unstakeFeed().send({ from: accounts[0] });
-                showModal('FEED unstaked successfully! 🎊');
+                showModal('Successfully unstaked FEED! 🎊');
                 updateNekoBalance();
                 updateFeedStakeInfo();
                 updatePendingRewards();
@@ -506,7 +515,7 @@
                 claimButton.classList.add('loading');
                 showModal('Claiming FEED rewards... 💰');
                 await nekoContract.methods.claimFeedRewards().send({ from: accounts[0] });
-                showModal('FEED rewards claimed successfully! 🎉');
+                showModal('Successfully claimed FEED rewards! 🎉');
                 updateNekoBalance();
                 updateFeedStakeInfo();
                 updatePendingRewards();
@@ -550,9 +559,9 @@
             try {
                 stakeButton.classList.add('loading');
                 const weiAmount = web3.utils.toWei(amount, 'ether');
-                showModal('Staking NEKO... ⛏️');
+                showModal(`Staking ${amount} NEKO... ⛏️`);
                 await nekoContract.methods.stakeNeko(weiAmount).send({ from: accounts[0] });
-                showModal('NEKO staked successfully! 🚀');
+                showModal(`Successfully staked ${amount} NEKO! 🚀`);
                 updateNekoBalance();
                 updateNekoStakeInfo();
                 updatePendingRewards();
@@ -573,7 +582,7 @@
                 unstakeButton.classList.add('loading');
                 showModal('Unstaking NEKO and claiming rewards... 💸');
                 await nekoContract.methods.unstakeNeko().send({ from: accounts[0] });
-                showModal('NEKO unstaked successfully! 🎊');
+                showModal('Successfully unstaked NEKO! 🎊');
                 updateNekoBalance();
                 updateNekoStakeInfo();
                 updatePendingRewards();
@@ -594,7 +603,7 @@
                 claimButton.classList.add('loading');
                 showModal('Claiming NEKO rewards... 💰');
                 await nekoContract.methods.claimNekoRewards().send({ from: accounts[0] });
-                showModal('NEKO rewards claimed successfully! 🎉');
+                showModal('Successfully claimed NEKO rewards! 🎉');
                 updateNekoBalance();
                 updateNekoStakeInfo();
                 updatePendingRewards();
