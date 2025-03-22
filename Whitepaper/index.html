@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NekoToken Whitepaper</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #1a3c5e;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+        }
+        h2 {
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        .section {
+            background-color: #fff;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+        th {
+            background-color: #e67e22;
+            color: white;
+        }
+        code {
+            background-color: #f0f0f0;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .example {
+            background-color: #f7f7f7;
+            padding: 15px;
+            border-left: 5px solid #e67e22;
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>NekoToken Whitepaper</h1>
+
+    <div class="section">
+        <h2>1. Introduction</h2>
+        <p>
+            Welcome to NekoToken (NEKO), a next-generation ERC-20 token launched on Ethereum to empower a community-driven ecosystem. By combining staking opportunities with the external FEED token (<code>0xe9Cb2D7ADC24Fc59FE00D6C0A0669BDF16805Fe0</code>) and the native NEKO token, NekoToken offers a unique dual-staking model designed to reward long-term participation and network stability.
+        </p>
+        <p>
+            Deployed on March 22, 2025, NekoToken leverages Ethereum’s robust infrastructure to provide a transparent, secure, and sustainable staking platform. This whitepaper details the tokenomics, staking rules, reward mechanics, and vision for the NekoToken ecosystem.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>2. Token Specifications</h2>
+        <table>
+            <tr>
+                <th>Property</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>Neko</td>
+            </tr>
+            <tr>
+                <td>Symbol</td>
+                <td>NEKO</td>
+            </tr>
+            <tr>
+                <td>Decimals</td>
+                <td>18</td>
+            </tr>
+            <tr>
+                <td>Total Supply Cap</td>
+                <td>1,000,000,000,000,000 NEKO (1 quadrillion)</td>
+            </tr>
+            <tr>
+                <td>Blockchain</td>
+                <td>Ethereum (ERC-20)</td>
+            </tr>
+        </table>
+        <p>
+            NekoToken adheres to the ERC-20 standard, ensuring seamless integration with wallets, exchanges, and DeFi platforms. The total supply is capped at 1 quadrillion NEKO, distributed exclusively through staking rewards over time.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>3. Staking Ecosystem</h2>
+        <h3>3.1 FEED Token Staking</h3>
+        <p>
+            FEED staking allows holders of the FEED token to participate in the NekoToken ecosystem by locking a fixed amount of FEED to earn NEKO rewards.
+        </p>
+        <ul>
+            <li><strong>Required Amount:</strong> 10 billion FEED (10,000,000,000 * 10^18).</li>
+            <li><strong>Staking Process:</strong> Call <code>stakeFeed()</code> to transfer 10 billion FEED to the contract. Only one stake per address is permitted.</li>
+            <li><strong>Unstaking:</strong> Call <code>unstakeFeed()</code> to retrieve FEED and claim NEKO rewards.</li>
+            <li><strong>Reward Claiming:</strong> Use <code>claimFeedRewards()</code> to claim NEKO without unstaking.</li>
+        </ul>
+        <div class="example">
+            <strong>Example:</strong> Alice stakes 10 billion FEED on day 1. After 1,000 blocks (~3.3 hours at 12s/block), she earns 500,000 NEKO (500 NEKO/block initially). She can claim this anytime or unstake to retrieve her FEED.
+        </div>
+
+        <h3>3.2 NEKO Token Staking</h3>
+        <p>
+            NEKO staking encourages holders to lock their tokens, enhancing network longevity and rewarding commitment.
+        </p>
+        <ul>
+            <li><strong>Minimum Unit:</strong> 10,000 NEKO (10,000 * 10^18), with staking amounts in multiples of this unit.</li>
+            <li><strong>Staking Process:</strong> Call <code>stakeNeko(amount)</code> to lock NEKO. Users can add to their stake over time.</li>
+            <li><strong>Unstaking:</strong> Call <code>unstakeNeko()</code> to withdraw all staked NEKO and claim rewards.</li>
+            <li><strong>Reward Claiming:</strong> Use <code>claimNekoRewards()</code> to claim NEKO without unstaking.</li>
+        </ul>
+        <div class="example">
+            <strong>Example:</strong> Bob stakes 50,000 NEKO (5 units). After 1,000 blocks, he earns 125 NEKO (0.025 NEKO/block * 5 units * 1,000 blocks). He can later stake more NEKO to increase his rewards.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>4. Reward Mechanics</h2>
+        <h3>4.1 FEED Staking Rewards</h3>
+        <table>
+            <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Initial Reward Rate</td>
+                <td>500 NEKO/block</td>
+            </tr>
+            <tr>
+                <td>Minimum Reward Rate</td>
+                <td>10 NEKO/block</td>
+            </tr>
+            <tr>
+                <td>Max Reward Accumulation</td>
+                <td>20,000 blocks (~2.8 days)</td>
+            </tr>
+        </table>
+
+        <h3>4.2 NEKO Staking Rewards</h3>
+        <table>
+            <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Initial Reward Rate</td>
+                <td>0.025 NEKO/block per 10,000 NEKO</td>
+            </tr>
+            <tr>
+                <td>Minimum Reward Rate</td>
+                <td>0.00005 NEKO/block per 10,000 NEKO</td>
+            </tr>
+            <tr>
+                <td>Max Reward Accumulation</td>
+                <td>20,000 blocks (~2.8 days)</td>
+            </tr>
+        </table>
+
+        <h3>4.3 Reward Decay</h3>
+        <p>
+            Rewards decay over time to ensure long-term sustainability:
+        </p>
+        <ul>
+            <li><strong>Decay Period:</strong> 600,000 blocks (~2.3 months).</li>
+            <li><strong>Formula:</strong> Reward = (Initial Rate * Base) / 50, where Base = 50 - (Blocks / 600,000).</li>
+            <li><strong>End Point:</strong> After 29,400,000 blocks (~11 years), rewards stabilize at the minimum rate.</li>
+        </ul>
+        <div class="example">
+            <strong>Example:</strong> After 6,000,000 blocks (~2.3 years), FEED rewards drop to ~400 NEKO/block (Base = 40). After 29,400,000 blocks (~11 years), it’s fixed at 10 NEKO/block.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>5. Tokenomics & Mining</h2>
+        <p>
+            NEKO tokens are minted through staking rewards with a clear cap:
+        </p>
+        <ul>
+            <li><strong>Total Supply Cap:</strong> 1 quadrillion NEKO.</li>
+            <li><strong>Mining Duration:</strong> Continues until the cap is reached or indefinitely at minimum rates post-29,400,000 blocks.</li>
+            <li><strong>End Trigger:</strong> Mining halts when total supply hits 1 quadrillion, signaled by the <code>MiningEnded</code> event.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>6. Security & Governance</h2>
+        <ul>
+            <li><strong>Reentrancy Protection:</strong> <code>nonReentrant</code> modifier prevents attacks.</li>
+            <li><strong>Ownership:</strong> Managed via <code>Ownable</code>, with transferability restricted to the deployer.</li>
+            <li><strong>Audit-Ready:</strong> Built with Solidity ^0.8.0, leveraging built-in safety features.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>7. Community Incentives</h2>
+        <p>
+            NekoToken rewards active participation:
+        </p>
+        <ul>
+            <li><strong>FEED Holders:</strong> Bridge into the NEKO ecosystem with high initial yields.</li>
+            <li><strong>NEKO Holders:</strong> Earn compounding rewards by staking, encouraging hodling.</li>
+            <li><strong>Long-Term Vision:</strong> Gradual reward decay balances early adopters and latecomers.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>8. Roadmap</h2>
+        <ul>
+            <li><strong>Q1 2025:</strong> Contract deployment, staking launch, and initial marketing.</li>
+            <li><strong>Q3 2025:</strong> Partnerships with DeFi platforms and liquidity pools.</li>
+            <li><strong>2026:</strong> Community governance proposals for future enhancements.</li>
+            <li><strong>2030:</strong> Mid-point of reward decay (~50% reduction), community expansion focus.</li>
+            <li><strong>2036:</strong> Reward stabilization at minimum rates after 11 years.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>9. Conclusion</h2>
+        <p>
+            NekoToken is more than a token—it’s a community-driven staking ecosystem built for sustainability and inclusivity. Whether you’re a FEED holder seeking new opportunities or a NEKO enthusiast aiming for long-term gains, NekoToken offers a rewarding journey. Join us as we redefine staking on Ethereum!
+        </p>
+    </div>
+
+    <footer>
+        <p>Published: March 22, 2025 | NekoToken Team | Built with xAI Assistance</p>
+    </footer>
+</body>
+</html>
