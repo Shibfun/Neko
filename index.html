@@ -53,7 +53,7 @@
             transition: background 0.3s;
         }
         .action-btn:hover { background: #F4A261; }
-        .header-content { padding: 20px 0; }
+        .header-content { padding: 15px 0; }
         .header-content h1 {
             font-size: 1.8em;
             color: #F4A261;
@@ -64,7 +64,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         .nickname { font-size: 1.1em; font-weight: bold; color: #A8B5D4; margin-right: 5px; }
         .v-icon { width: 16px; height: 16px; vertical-align: middle; }
@@ -73,23 +73,24 @@
             height: 80px;
             background: url('images/miner.gif') no-repeat center;
             background-size: contain;
-            margin: 0 auto 15px;
+            margin: 0 auto 10px;
         }
         .miner-prompt {
             font-size: 0.9em;
-            color: #F4A261;
+            color: #fff;
             text-align: center;
             margin-bottom: 10px;
             animation: fade 3s infinite;
         }
         @keyframes fade { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
         .block-info {
-            background: rgba(44, 62, 80, 0.95);
-            padding: 15px;
-            border-radius: 12px;
-            margin: 15px 0;
-            font-size: 0.9em;
-            color: #A8B5D4;
+            background: rgba(44, 62, 80, 0.85);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 15px;
+            font-size: 0.85em;
+            color: #fff;
+            border: 1px solid #F4A261;
         }
         .container {
             width: 100%;
@@ -98,26 +99,27 @@
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
         }
         .section {
-            background: rgba(44, 62, 80, 0.95);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            background: rgba(44, 62, 80, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             text-align: center;
+            border: 1px solid #F4A261;
         }
         .section-title {
             font-size: 1.3em;
             color: #F4A261;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-transform: uppercase;
         }
         .button-group {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-top: 15px;
+            gap: 10px;
+            margin-top: 10px;
         }
         button {
             background: #F4A261;
@@ -152,8 +154,8 @@
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin: 20px 0;
+            gap: 10px;
+            margin: 15px 0;
         }
         input {
             padding: 12px;
@@ -173,14 +175,14 @@
         .percentage-buttons {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin: 15px 0;
+            gap: 8px;
+            margin: 10px 0;
         }
         .percentage-btn {
             background: #F4A261;
             color: #fff;
             border: none;
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: 15px;
             font-size: 0.9em;
             cursor: pointer;
@@ -194,11 +196,11 @@
         }
         .info-panel {
             background: #34495E;
-            padding: 12px;
-            border-radius: 12px;
-            margin-top: 20px;
-            font-size: 0.95em;
-            color: #A8B5D4;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #fff;
         }
         .modal {
             display: none;
@@ -213,7 +215,7 @@
         }
         .modal-content {
             background: #2C3E50;
-            padding: 25px;
+            padding: 20px;
             border-radius: 15px;
             text-align: center;
             color: #fff;
@@ -221,7 +223,7 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
         .modal-content p {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-size: 1.1em;
         }
         .modal-content button {
@@ -245,10 +247,10 @@
             input { font-size: 0.9em; padding: 10px; }
             .percentage-btn { padding: 8px 12px; font-size: 0.85em; }
             .miner-prompt { font-size: 0.8em; }
-            .block-info { font-size: 0.8em; }
+            .block-info { font-size: 0.75em; }
             .nickname { font-size: 1em; }
             .v-icon { width: 14px; height: 14px; }
-            .section { padding: 20px; }
+            .section { padding: 15px; }
             .container { max-width: 100%; padding: 0 10px; }
         }
     </style>
@@ -288,7 +290,7 @@
                 <button id="unstakeFeedButton" disabled>Unstake</button>
                 <button id="claimFeedRewardsButton" disabled>Claim Rewards</button>
             </div>
-            <div class="info-panel" id="feedStakeInfo">FEED Staked: None | Rewards: 0 NEKO</div>
+            <div class="info-panel" id="feedStakeInfo">FEED Staked: None | Rewards: 0 NEKO | Time to Max: N/A</div>
         </div>
         <div class="section" id="nekoStakeSection">
             <div class="section-title">Stake NEKO</div>
@@ -306,7 +308,7 @@
                 <button id="unstakeNekoButton" disabled>Unstake</button>
                 <button id="claimNekoRewardsButton" disabled>Claim Rewards</button>
             </div>
-            <div class="info-panel" id="nekoStakeInfo">NEKO Staked: None | Rewards: 0 NEKO</div>
+            <div class="info-panel" id="nekoStakeInfo">NEKO Staked: None | Rewards: 0 NEKO | Time to Max: N/A</div>
         </div>
     </div>
     <footer>Powered by Shibarium © 2025</footer>
@@ -436,7 +438,7 @@
 
         async function updateFeedStakeInfo() {
             if (!web3 || !nekoContract || !accounts) {
-                document.getElementById('feedStakeInfo').innerText = 'FEED Staked: None | Rewards: 0 NEKO';
+                document.getElementById('feedStakeInfo').innerText = 'FEED Staked: None | Rewards: 0 NEKO | Time to Max: N/A';
                 document.getElementById('unstakeFeedButton').disabled = true;
                 document.getElementById('claimFeedRewardsButton').disabled = true;
                 return;
@@ -444,14 +446,23 @@
             const stakeInfo = await nekoContract.methods.getFeedStakeInfo(accounts[0]).call();
             const amount = stakeInfo[0] === '0' ? 'None' : parseFloat(web3.utils.fromWei(stakeInfo[0], 'ether')).toFixed(2);
             const reward = parseFloat(web3.utils.fromWei(stakeInfo[2], 'ether')).toFixed(4);
-            document.getElementById('feedStakeInfo').innerText = `FEED Staked: ${amount} | Rewards: ${reward} NEKO`;
+            const currentBlock = await web3.eth.getBlockNumber();
+            const lastBlock = stakeInfo[1];
+            let timeToMax = 'N/A';
+            if (stakeInfo[0] !== '0') {
+                const blocksSinceStake = currentBlock - lastBlock;
+                const blocksRemaining = Math.max(0, MAX_REWARD_BLOCKS - blocksSinceStake);
+                const timeRemaining = blocksRemaining * BLOCK_TIME;
+                timeToMax = `${(timeRemaining / 3600).toFixed(2)}h`;
+            }
+            document.getElementById('feedStakeInfo').innerText = `FEED Staked: ${amount} | Rewards: ${reward} NEKO | Time to Max: ${timeToMax}`;
             document.getElementById('unstakeFeedButton').disabled = stakeInfo[0] === '0';
             document.getElementById('claimFeedRewardsButton').disabled = stakeInfo[0] === '0' || stakeInfo[2] === '0';
         }
 
         async function updateNekoStakeInfo() {
             if (!web3 || !nekoContract || !accounts) {
-                document.getElementById('nekoStakeInfo').innerText = 'NEKO Staked: None | Rewards: 0 NEKO';
+                document.getElementById('nekoStakeInfo').innerText = 'NEKO Staked: None | Rewards: 0 NEKO | Time to Max: N/A';
                 document.getElementById('unstakeNekoButton').disabled = true;
                 document.getElementById('claimNekoRewardsButton').disabled = true;
                 return;
@@ -459,7 +470,16 @@
             const stakeInfo = await nekoContract.methods.getNekoStakeInfo(accounts[0]).call();
             const amount = stakeInfo[0] === '0' ? 'None' : parseFloat(web3.utils.fromWei(stakeInfo[0], 'ether')).toFixed(2);
             const reward = parseFloat(web3.utils.fromWei(stakeInfo[2], 'ether')).toFixed(4);
-            document.getElementById('nekoStakeInfo').innerText = `NEKO Staked: ${amount} | Rewards: ${reward} NEKO`;
+            const currentBlock = await web3.eth.getBlockNumber();
+            const lastBlock = stakeInfo[1];
+            let timeToMax = 'N/A';
+            if (stakeInfo[0] !== '0') {
+                const blocksSinceStake = currentBlock - lastBlock;
+                const blocksRemaining = Math.max(0, MAX_REWARD_BLOCKS - blocksSinceStake);
+                const timeRemaining = blocksRemaining * BLOCK_TIME;
+                timeToMax = `${(timeRemaining / 3600).toFixed(2)}h`;
+            }
+            document.getElementById('nekoStakeInfo').innerText = `NEKO Staked: ${amount} | Rewards: ${reward} NEKO | Time to Max: ${timeToMax}`;
             document.getElementById('unstakeNekoButton').disabled = stakeInfo[0] === '0';
             document.getElementById('claimNekoRewardsButton').disabled = stakeInfo[0] === '0' || stakeInfo[2] === '0';
         }
