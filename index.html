@@ -83,15 +83,6 @@
             animation: fade 3s infinite;
         }
         @keyframes fade { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
-        .block-info {
-            background: rgba(44, 62, 80, 0.85);
-            padding: 10px;
-            border-radius: 10px;
-            margin: 10px 15px;
-            font-size: 0.85em;
-            color: #fff;
-            border: 1px solid #F4A261;
-        }
         .container {
             width: 100%;
             max-width: 420px;
@@ -199,8 +190,9 @@
             padding: 10px;
             border-radius: 10px;
             margin-top: 15px;
-            font-size: 0.9em;
+            font-size: 0.85em;
             color: #fff;
+            line-height: 1.6;
         }
         .modal {
             display: none;
@@ -247,7 +239,6 @@
             input { font-size: 0.9em; padding: 10px; }
             .percentage-btn { padding: 8px 12px; font-size: 0.85em; }
             .miner-prompt { font-size: 0.8em; }
-            .block-info { font-size: 0.75em; }
             .nickname { font-size: 1em; }
             .v-icon { width: 14px; height: 14px; }
             .section { padding: 15px; }
@@ -272,7 +263,6 @@
             </div>
             <div class="miner-gif"></div>
             <div class="miner-prompt" id="minerPrompt"></div>
-            <div class="block-info" id="blockInfo"></div>
         </div>
     </div>
     <div class="container">
@@ -290,7 +280,7 @@
                 <button id="unstakeFeedButton" disabled>Unstake</button>
                 <button id="claimFeedRewardsButton" disabled>Claim Rewards</button>
             </div>
-            <div class="info-panel" id="feedStakeInfo">FEED Staked: None | Rewards: 0 NEKO | Time to Max: N/A</div>
+            <div class="info-panel" id="feedStakeInfo">FEED Staked: None<br>Rewards: 0 NEKO<br>Time to Max: N/A</div>
         </div>
         <div class="section" id="nekoStakeSection">
             <div class="section-title">Stake NEKO</div>
@@ -308,7 +298,7 @@
                 <button id="unstakeNekoButton" disabled>Unstake</button>
                 <button id="claimNekoRewardsButton" disabled>Claim Rewards</button>
             </div>
-            <div class="info-panel" id="nekoStakeInfo">NEKO Staked: None | Rewards: 0 NEKO | Time to Max: N/A</div>
+            <div class="info-panel" id="nekoStakeInfo">NEKO Staked: None<br>Rewards: 0 NEKO<br>Time to Max: N/A</div>
         </div>
     </div>
     <footer>Powered by Shibarium © 2025</footer>
@@ -413,23 +403,6 @@
             promptIndex = (promptIndex + 1) % prompts.length;
         }
 
-        async function updateBlockInfo() {
-            if (!web3) {
-                document.getElementById('blockInfo').innerText = 'Block Info: Connect wallet to see details';
-                return;
-            }
-            try {
-                const currentBlock = await web3.eth.getBlockNumber();
-                const blocksRemaining = MAX_REWARD_BLOCKS - (currentBlock % MAX_REWARD_BLOCKS);
-                const timeToMaxBlocks = blocksRemaining * BLOCK_TIME;
-                const hoursToMaxBlocks = (timeToMaxBlocks / 3600).toFixed(2);
-                const blocksPerHour = Math.floor(3600 / BLOCK_TIME);
-                document.getElementById('blockInfo').innerText = `Current Block: ${currentBlock} | Blocks to 20K: ${blocksRemaining} (~${hoursToMaxBlocks}h) | Blocks per Hour: ${blocksPerHour}`;
-            } catch (error) {
-                document.getElementById('blockInfo').innerText = 'Block Info: Failed to fetch block data';
-            }
-        }
-
         async function updateNekoBalance() {
             if (!web3 || !nekoContract || !accounts) return;
             const balance = await nekoContract.methods.balanceOf(accounts[0]).call();
@@ -438,7 +411,7 @@
 
         async function updateFeedStakeInfo() {
             if (!web3 || !nekoContract || !accounts) {
-                document.getElementById('feedStakeInfo').innerText = 'FEED Staked: None | Rewards: 0 NEKO | Time to Max: N/A';
+                document.getElementById('feedStakeInfo').innerHTML = 'FEED Staked: None<br>Rewards: 0 NEKO<br>Time to Max: N/A';
                 document.getElementById('unstakeFeedButton').disabled = true;
                 document.getElementById('claimFeedRewardsButton').disabled = true;
                 return;
@@ -455,14 +428,14 @@
                 const timeRemaining = blocksRemaining * BLOCK_TIME;
                 timeToMax = `${(timeRemaining / 3600).toFixed(2)}h`;
             }
-            document.getElementById('feedStakeInfo').innerText = `FEED Staked: ${amount} | Rewards: ${reward} NEKO | Time to Max: ${timeToMax}`;
+            document.getElementById('feedStakeInfo').innerHTML = `FEED Staked: ${amount}<br>Rewards: ${reward} NEKO<br>Time to Max: ${timeToMax}`;
             document.getElementById('unstakeFeedButton').disabled = stakeInfo[0] === '0';
             document.getElementById('claimFeedRewardsButton').disabled = stakeInfo[0] === '0' || stakeInfo[2] === '0';
         }
 
         async function updateNekoStakeInfo() {
             if (!web3 || !nekoContract || !accounts) {
-                document.getElementById('nekoStakeInfo').innerText = 'NEKO Staked: None | Rewards: 0 NEKO | Time to Max: N/A';
+                document.getElementById('nekoStakeInfo').innerHTML = 'NEKO Staked: None<br>Rewards: 0 NEKO<br>Time to Max: N/A';
                 document.getElementById('unstakeNekoButton').disabled = true;
                 document.getElementById('claimNekoRewardsButton').disabled = true;
                 return;
@@ -479,7 +452,7 @@
                 const timeRemaining = blocksRemaining * BLOCK_TIME;
                 timeToMax = `${(timeRemaining / 3600).toFixed(2)}h`;
             }
-            document.getElementById('nekoStakeInfo').innerText = `NEKO Staked: ${amount} | Rewards: ${reward} NEKO | Time to Max: ${timeToMax}`;
+            document.getElementById('nekoStakeInfo').innerHTML = `NEKO Staked: ${amount}<br>Rewards: ${reward} NEKO<br>Time to Max: ${timeToMax}`;
             document.getElementById('unstakeNekoButton').disabled = stakeInfo[0] === '0';
             document.getElementById('claimNekoRewardsButton').disabled = stakeInfo[0] === '0' || stakeInfo[2] === '0';
         }
@@ -535,7 +508,6 @@
                 updateNekoBalance();
                 updateFeedStakeInfo();
                 updateNekoStakeInfo();
-                updateBlockInfo();
             } catch (error) {
                 showModal(`Connection failed: ${error.message}`);
             } finally {
@@ -696,7 +668,6 @@
             updateNekoBalance();
             updateFeedStakeInfo();
             updateNekoStakeInfo();
-            updateBlockInfo();
         }, 5000);
 
         document.getElementById('connectButton').addEventListener('click', connectWallet);
