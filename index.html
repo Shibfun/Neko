@@ -12,14 +12,14 @@
             font-family: 'Arial', sans-serif;
             background: url('images/background.png') no-repeat center center fixed;
             background-size: cover;
-            position: relative;
             color: #fff;
             line-height: 1.4;
-            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
         body::before {
             content: '';
@@ -33,57 +33,57 @@
             z-index: -1;
         }
         .header, .container, footer, .modal { position: relative; z-index: 1; }
-        .header { padding: 10px 0; text-align: center; width: 100%; }
+        .header { padding: 15px 0; text-align: center; width: 100%; }
         .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 15px;
+            padding: 0 20px;
             height: 40px;
         }
-        .header-top .balance { font-size: 1.1em; color: #F4A261; }
-        .header-top .actions { display: flex; gap: 10px; }
+        .header-top .balance { font-size: 1.2em; color: #F4A261; font-weight: bold; }
+        .header-top .actions { display: flex; gap: 12px; }
         .action-btn {
             background: #34495E;
             color: #fff;
             border: none;
-            padding: 5px 10px;
-            border-radius: 10px;
-            font-size: 0.8em;
+            padding: 8px 12px;
+            border-radius: 12px;
             cursor: pointer;
+            transition: background 0.3s;
         }
-        .action-btn i { font-size: 1em; }
+        .action-btn:hover { background: #F4A261; }
         .header-content { padding: 20px 0; }
         .header-content h1 {
-            font-size: 1.5em;
+            font-size: 1.8em;
             color: #F4A261;
             text-transform: uppercase;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
         .profile-section {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
-        .nickname { font-size: 1em; font-weight: bold; color: #A8B5D4; margin-right: 5px; }
+        .nickname { font-size: 1.1em; font-weight: bold; color: #A8B5D4; margin-right: 5px; }
         .v-icon { width: 16px; height: 16px; vertical-align: middle; }
         .miner-gif {
             width: 80px;
             height: 80px;
             background: url('images/miner.gif') no-repeat center;
             background-size: contain;
-            margin: 0 auto 10px;
+            margin: 0 auto 15px;
         }
         .miner-prompt {
-            font-size: 0.8em;
+            font-size: 0.9em;
             color: #F4A261;
             text-align: center;
             margin-bottom: 10px;
             animation: fade 3s infinite;
         }
         .reward-none {
-            font-size: 0.9em;
+            font-size: 1em;
             color: #E07A5F;
             text-align: center;
             cursor: pointer;
@@ -93,68 +93,79 @@
         @keyframes fade { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
         .container {
             width: 100%;
-            max-width: 400px;
-            padding: 0 10px;
+            max-width: 420px;
+            padding: 0 15px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
         .section {
             background: rgba(44, 62, 80, 0.9);
-            padding: 15px;
+            padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
-        .section-title { font-size: 1.1em; color: #F4A261; margin-bottom: 10px; }
-        .button-group { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
+        .section-title { font-size: 1.2em; color: #F4A261; margin-bottom: 15px; }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
         button {
             background: #F4A261;
             color: #fff;
             border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
+            padding: 10px 20px;
+            border-radius: 25px;
             cursor: pointer;
-            font-size: 0.9em;
-            transition: background 0.3s;
-            touch-action: manipulation;
+            font-size: 0.95em;
+            min-width: 100px;
+            transition: background 0.3s, transform 0.2s;
         }
-        button:hover { background: #E07A5F; }
-        button:disabled { background: #555; cursor: not-allowed; }
+        button:hover { background: #E07A5F; transform: scale(1.05); }
+        button:disabled { background: #555; cursor: not-allowed; transform: none; }
         button.loading { opacity: 0.7; pointer-events: none; }
-        .input-group { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+        .input-group { display: flex; flex-direction: column; gap: 10px; margin: 15px 0; }
         input {
-            padding: 8px;
+            padding: 10px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             background: #34495E;
             color: #fff;
-            font-size: 0.9em;
+            font-size: 0.95em;
             text-align: center;
+            transition: box-shadow 0.3s;
         }
-        input:focus { outline: none; box-shadow: 0 0 3px #F4A261; }
-        .percentage-buttons { display: flex; justify-content: center; gap: 5px; margin: 10px 0; }
+        input:focus { outline: none; box-shadow: 0 0 5px #F4A261; }
+        .percentage-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 10px 0;
+        }
         .percentage-btn {
             background: #F4A261;
             color: #fff;
             border: none;
-            padding: 6px 10px;
+            padding: 8px 12px;
             border-radius: 15px;
-            font-size: 0.8em;
+            font-size: 0.85em;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: background 0.3s, transform 0.2s;
         }
-        .percentage-btn:hover { background: #E07A5F; }
+        .percentage-btn:hover { background: #E07A5F; transform: scale(1.05); }
         .info-panel {
             background: #34495E;
-            padding: 10px;
-            border-radius: 10px;
-            margin-top: 10px;
-            font-size: 0.8em;
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 15px;
+            font-size: 0.9em;
             color: #fff;
         }
-        .status { margin-top: 10px; font-size: 0.9em; color: #F4A261; }
         .modal {
             display: none;
             position: fixed;
@@ -168,32 +179,34 @@
         }
         .modal-content {
             background: #2C3E50;
-            padding: 20px;
+            padding: 25px;
             border-radius: 15px;
             text-align: center;
             color: #fff;
-            max-width: 300px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            max-width: 320px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
-        .modal-content p { margin-bottom: 15px; font-size: 1em; }
-        .modal-content button { background: #F4A261; padding: 8px 15px; border-radius: 20px; font-size: 0.9em; }
+        .modal-content p { margin-bottom: 20px; font-size: 1.1em; }
+        .modal-content button { padding: 10px 20px; border-radius: 25px; font-size: 0.95em; }
         footer {
             background: rgba(30, 42, 68, 0.8);
             text-align: center;
-            padding: 10px;
+            padding: 15px;
             width: 100%;
             color: #A8B5D4;
-            font-size: 0.8em;
+            font-size: 0.9em;
             margin-top: 20px;
         }
         @media (max-width: 480px) {
-            .header-content h1 { font-size: 1.3em; }
+            .header-content h1 { font-size: 1.5em; }
             .miner-gif { width: 60px; height: 60px; }
-            button { padding: 6px 12px; font-size: 0.8em; }
-            input { font-size: 0.8em; }
-            .miner-prompt { font-size: 0.7em; }
-            .nickname { font-size: 0.9em; }
+            button { padding: 8px 15px; font-size: 0.85em; min-width: 90px; }
+            input { font-size: 0.85em; }
+            .miner-prompt { font-size: 0.8em; }
+            .nickname { font-size: 1em; }
             .v-icon { width: 14px; height: 14px; }
+            .section { padding: 15px; }
+            .container { max-width: 100%; padding: 0 10px; }
         }
     </style>
 </head>
@@ -207,7 +220,7 @@
             </div>
         </div>
         <div class="header-content">
-            <h1 id="title">NekoToken DApp</h1>
+            <h1>NekoToken DApp</h1>
             <div class="profile-section">
                 <span class="nickname" id="userNickname">Not connected</span>
                 <img class="v-icon" id="vIcon" src="" alt="" style="display: none;">
@@ -219,14 +232,14 @@
     </div>
     <div class="container">
         <div class="section">
-            <div class="section-title" id="connectTitle">Connect Wallet</div>
+            <div class="section-title">Connect Wallet</div>
             <div class="button-group">
                 <button id="connectButton">Connect MetaMask</button>
             </div>
             <div class="info-panel">Wallet: <span id="walletAddress">Not connected</span></div>
         </div>
         <div class="section" id="feedStakeSection">
-            <div class="section-title" id="feedStakeTitle">Stake FEED</div>
+            <div class="section-title">Stake FEED</div>
             <div class="button-group">
                 <button id="stakeFeedButton">Stake (10B FEED)</button>
                 <button id="unstakeFeedButton" disabled>Unstake</button>
@@ -235,12 +248,7 @@
             <div class="info-panel" id="feedStakeInfo">FEED Staked: None | Rewards: 0 NEKO</div>
         </div>
         <div class="section" id="nekoStakeSection">
-            <div class="section-title" id="nekoStakeTitle">Stake NEKO</div>
-            <div class="button-group">
-                <button id="stakeNekoButton">Stake</button>
-                <button id="unstakeNekoButton" disabled>Unstake</button>
-                <button id="claimNekoRewardsButton" disabled>Claim Rewards</button>
-            </div>
+            <div class="section-title">Stake NEKO</div>
             <div class="input-group">
                 <input type="text" id="stakeNekoAmountInput" placeholder="Amount (Min 10000 NEKO)">
             </div>
@@ -250,10 +258,15 @@
                 <button class="percentage-btn" onclick="setNekoStakePercentage(75)">75%</button>
                 <button class="percentage-btn" onclick="setNekoStakePercentage(100)">100%</button>
             </div>
+            <div class="button-group">
+                <button id="stakeNekoButton">Stake</button>
+                <button id="unstakeNekoButton" disabled>Unstake</button>
+                <button id="claimNekoRewardsButton" disabled>Claim Rewards</button>
+            </div>
             <div class="info-panel" id="nekoStakeInfo">NEKO Staked: None | Rewards: 0 NEKO</div>
         </div>
     </div>
-    <footer id="footer">Powered by Shibarium © 2025</footer>
+    <footer>Powered by Shibarium © 2025</footer>
     <div id="modal" class="modal">
         <div class="modal-content">
             <p id="modalMessage"></p>
@@ -263,7 +276,7 @@
     <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
     <script>
         let web3, accounts, nekoContract, feedContract;
-        const NEKO_CONTRACT_ADDRESS = "0x7973efb17f03eb44C8BD624449A91cD9Abc8aE98";
+        const NEKO_CONTRACT_ADDRESS = "0x63A67329f761517570345eE86f791F74f9DC5461";
         const FEED_CONTRACT_ADDRESS = "0xe9Cb2D7ADC24Fc59FE00D6C0A0669BDF16805Fe0";
         const NEKO_ABI = [
             {"inputs":[],"stateMutability":"nonpayable","type":"constructor"},
@@ -383,7 +396,7 @@
             const reward = parseFloat(web3.utils.fromWei(stakeInfo[2], 'ether')).toFixed(4);
             document.getElementById('feedStakeInfo').innerText = `FEED Staked: ${amount} | Rewards: ${reward} NEKO`;
             document.getElementById('unstakeFeedButton').disabled = stakeInfo[0] === '0';
-            document.getElementById('claimFeedRewardsButton').disabled = stakeInfo[0] === '0';
+            document.getElementById('claimFeedRewardsButton').disabled = stakeInfo[0] === '0' || stakeInfo[2] === '0';
         }
 
         async function updateNekoStakeInfo() {
@@ -398,7 +411,7 @@
             const reward = parseFloat(web3.utils.fromWei(stakeInfo[2], 'ether')).toFixed(4);
             document.getElementById('nekoStakeInfo').innerText = `NEKO Staked: ${amount} | Rewards: ${reward} NEKO`;
             document.getElementById('unstakeNekoButton').disabled = stakeInfo[0] === '0';
-            document.getElementById('claimNekoRewardsButton').disabled = stakeInfo[0] === '0';
+            document.getElementById('claimNekoRewardsButton').disabled = stakeInfo[0] === '0' || stakeInfo[2] === '0';
         }
 
         async function updateUserAddress() {
@@ -623,10 +636,12 @@
         }
 
         setInterval(updatePrompt, 3000);
-        setInterval(updateNekoBalance, 5000);
-        setInterval(updatePendingRewards, 5000);
-        setInterval(updateFeedStakeInfo, 5000);
-        setInterval(updateNekoStakeInfo, 5000);
+        setInterval(() => {
+            updateNekoBalance();
+            updatePendingRewards();
+            updateFeedStakeInfo();
+            updateNekoStakeInfo();
+        }, 5000);
 
         document.getElementById('connectButton').addEventListener('click', connectWallet);
         document.getElementById('stakeFeedButton').addEventListener('click', stakeFeed);
