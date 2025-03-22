@@ -82,14 +82,6 @@
             margin-bottom: 10px;
             animation: fade 3s infinite;
         }
-        .reward-none {
-            font-size: 1em;
-            color: #E07A5F;
-            text-align: center;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-        .reward-none:hover { color: #F4A261; }
         @keyframes fade { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
         .container {
             width: 100%;
@@ -101,70 +93,104 @@
             gap: 20px;
         }
         .section {
-            background: rgba(44, 62, 80, 0.9);
-            padding: 20px;
+            background: rgba(44, 62, 80, 0.95);
+            padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
-        .section-title { font-size: 1.2em; color: #F4A261; margin-bottom: 15px; }
+        .section-title {
+            font-size: 1.3em;
+            color: #F4A261;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
         .button-group {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 12px;
             margin-top: 15px;
         }
         button {
             background: #F4A261;
             color: #fff;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 0;
             border-radius: 25px;
             cursor: pointer;
-            font-size: 0.95em;
-            min-width: 100px;
-            transition: background 0.3s, transform 0.2s;
+            font-size: 1em;
+            font-weight: 500;
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
         }
-        button:hover { background: #E07A5F; transform: scale(1.05); }
-        button:disabled { background: #555; cursor: not-allowed; transform: none; }
-        button.loading { opacity: 0.7; pointer-events: none; }
-        .input-group { display: flex; flex-direction: column; gap: 10px; margin: 15px 0; }
+        button:hover {
+            background: #E07A5F;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
+        }
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        button.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
         input {
-            padding: 10px;
+            padding: 12px;
             border: none;
             border-radius: 12px;
             background: #34495E;
             color: #fff;
-            font-size: 0.95em;
+            font-size: 1em;
             text-align: center;
-            transition: box-shadow 0.3s;
+            transition: box-shadow 0.3s, background 0.3s;
         }
-        input:focus { outline: none; box-shadow: 0 0 5px #F4A261; }
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 8px #F4A261;
+            background: #3A536B;
+        }
         .percentage-buttons {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            margin: 10px 0;
+            gap: 10px;
+            margin: 15px 0;
         }
         .percentage-btn {
             background: #F4A261;
             color: #fff;
             border: none;
-            padding: 8px 12px;
+            padding: 10px 15px;
             border-radius: 15px;
-            font-size: 0.85em;
+            font-size: 0.9em;
             cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
-        .percentage-btn:hover { background: #E07A5F; transform: scale(1.05); }
+        .percentage-btn:hover {
+            background: #E07A5F;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
         .info-panel {
             background: #34495E;
             padding: 12px;
             border-radius: 12px;
-            margin-top: 15px;
-            font-size: 0.9em;
-            color: #fff;
+            margin-top: 20px;
+            font-size: 0.95em;
+            color: #A8B5D4;
         }
         .modal {
             display: none;
@@ -186,8 +212,15 @@
             max-width: 320px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
-        .modal-content p { margin-bottom: 20px; font-size: 1.1em; }
-        .modal-content button { padding: 10px 20px; border-radius: 25px; font-size: 0.95em; }
+        .modal-content p {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        .modal-content button {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.95em;
+        }
         footer {
             background: rgba(30, 42, 68, 0.8);
             text-align: center;
@@ -200,12 +233,13 @@
         @media (max-width: 480px) {
             .header-content h1 { font-size: 1.5em; }
             .miner-gif { width: 60px; height: 60px; }
-            button { padding: 8px 15px; font-size: 0.85em; min-width: 90px; }
-            input { font-size: 0.85em; }
+            button { padding: 10px 0; font-size: 0.9em; max-width: 180px; }
+            input { font-size: 0.9em; padding: 10px; }
+            .percentage-btn { padding: 8px 12px; font-size: 0.85em; }
             .miner-prompt { font-size: 0.8em; }
             .nickname { font-size: 1em; }
             .v-icon { width: 14px; height: 14px; }
-            .section { padding: 15px; }
+            .section { padding: 20px; }
             .container { max-width: 100%; padding: 0 10px; }
         }
     </style>
@@ -227,7 +261,6 @@
             </div>
             <div class="miner-gif"></div>
             <div class="miner-prompt" id="minerPrompt"></div>
-            <div class="reward-none" id="rewardNeko" onclick="claimRewards()">Pending Rewards: 0 NEKO</div>
         </div>
     </div>
     <div class="container">
@@ -343,7 +376,6 @@
             rpcUrls: ['https://www.shibrpc.com'],
             blockExplorerUrls: ['https://shibariumscan.io']
         };
-
         const prompts = [
             "⛏️ Stake your FEED and NEKO to mine rewards!",
             "💎 Dig deeper for more NEKO rewards!",
@@ -371,17 +403,6 @@
             if (!web3 || !nekoContract || !accounts) return;
             const balance = await nekoContract.methods.balanceOf(accounts[0]).call();
             document.getElementById('nekoBalance').innerText = `${parseFloat(web3.utils.fromWei(balance, 'ether')).toFixed(2)} NEKO`;
-        }
-
-        async function updatePendingRewards() {
-            if (!web3 || !nekoContract || !accounts) {
-                document.getElementById('rewardNeko').innerText = 'Pending Rewards: 0 NEKO';
-                return;
-            }
-            const feedRewards = await nekoContract.methods.getFeedPendingRewards(accounts[0]).call();
-            const nekoRewards = await nekoContract.methods.getNekoPendingRewards(accounts[0]).call();
-            const totalRewards = parseFloat(web3.utils.fromWei(feedRewards, 'ether')) + parseFloat(web3.utils.fromWei(nekoRewards, 'ether'));
-            document.getElementById('rewardNeko').innerText = `Pending Rewards: ${totalRewards.toFixed(4)} NEKO`;
         }
 
         async function updateFeedStakeInfo() {
@@ -463,7 +484,6 @@
                 showModal('Connected to Shibarium successfully! 🎉');
                 updateUserAddress();
                 updateNekoBalance();
-                updatePendingRewards();
                 updateFeedStakeInfo();
                 updateNekoStakeInfo();
             } catch (error) {
@@ -489,7 +509,6 @@
                 showModal('Successfully staked 10B FEED! 🚀');
                 updateNekoBalance();
                 updateFeedStakeInfo();
-                updatePendingRewards();
             } catch (error) {
                 showModal(`Staking failed: ${error.message}`);
             } finally {
@@ -510,7 +529,6 @@
                 showModal('Successfully unstaked FEED! 🎊');
                 updateNekoBalance();
                 updateFeedStakeInfo();
-                updatePendingRewards();
             } catch (error) {
                 showModal(`Unstaking failed: ${error.message}`);
             } finally {
@@ -531,7 +549,6 @@
                 showModal('Successfully claimed FEED rewards! 🎉');
                 updateNekoBalance();
                 updateFeedStakeInfo();
-                updatePendingRewards();
             } catch (error) {
                 showModal(`Claim failed: ${error.message}`);
             } finally {
@@ -577,7 +594,6 @@
                 showModal(`Successfully staked ${amount} NEKO! 🚀`);
                 updateNekoBalance();
                 updateNekoStakeInfo();
-                updatePendingRewards();
             } catch (error) {
                 showModal(`Staking failed: ${error.message}`);
             } finally {
@@ -598,7 +614,6 @@
                 showModal('Successfully unstaked NEKO! 🎊');
                 updateNekoBalance();
                 updateNekoStakeInfo();
-                updatePendingRewards();
             } catch (error) {
                 showModal(`Unstaking failed: ${error.message}`);
             } finally {
@@ -619,7 +634,6 @@
                 showModal('Successfully claimed NEKO rewards! 🎉');
                 updateNekoBalance();
                 updateNekoStakeInfo();
-                updatePendingRewards();
             } catch (error) {
                 showModal(`Claim failed: ${error.message}`);
             } finally {
@@ -627,18 +641,9 @@
             }
         }
 
-        async function claimRewards() {
-            if (!web3 || !nekoContract || !accounts) {
-                showModal('Please connect your wallet first! 🔧');
-                return;
-            }
-            showModal('Claim your FEED or NEKO rewards from the staking sections below! ⬇️');
-        }
-
         setInterval(updatePrompt, 3000);
         setInterval(() => {
             updateNekoBalance();
-            updatePendingRewards();
             updateFeedStakeInfo();
             updateNekoStakeInfo();
         }, 5000);
