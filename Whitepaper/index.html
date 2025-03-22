@@ -3,35 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NekoToken Whitepaper</title>
+    <title>NekoToken Whitepaper - Shibarium Edition</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
-            padding: 20px;
-            background-color: #f9f9f9;
-            color: #333;
+            padding: 30px;
+            background-color: #f9fafb;
+            color: #2c2c2c;
         }
         h1, h2, h3 {
             color: #1a3c5e;
         }
         h1 {
             text-align: center;
-            margin-bottom: 40px;
             font-size: 2.5em;
+            margin-bottom: 40px;
         }
         h2 {
-            border-bottom: 2px solid #e67e22;
-            padding-bottom: 5px;
-            margin-top: 30px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #ff6f61;
+            padding-bottom: 8px;
+            margin-top: 40px;
+        }
+        h3 {
+            font-size: 1.4em;
+            margin-top: 20px;
         }
         .section {
             background-color: #fff;
             padding: 25px;
             margin-bottom: 25px;
             border-radius: 10px;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
         table {
             width: 100%;
@@ -41,22 +46,25 @@
         th, td {
             padding: 12px;
             text-align: left;
-            border: 1px solid #ccc;
+            border: 1px solid #e0e0e0;
         }
         th {
-            background-color: #e67e22;
+            background-color: #ff6f61;
             color: white;
+        }
+        td {
+            background-color: #fefefe;
         }
         code {
             background-color: #f0f0f0;
             padding: 3px 6px;
             border-radius: 4px;
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
         }
-        .example {
-            background-color: #f7f7f7;
+        .highlight {
+            background-color: #fff3f0;
             padding: 15px;
-            border-left: 5px solid #e67e22;
+            border-left: 4px solid #ff6f61;
             margin: 15px 0;
         }
         footer {
@@ -68,15 +76,15 @@
     </style>
 </head>
 <body>
-    <h1>NekoToken Whitepaper</h1>
+    <h1>NekoToken Whitepaper - Shibarium Edition</h1>
 
     <div class="section">
-        <h2>1. Introduction</h2>
+        <h2>1. Executive Summary</h2>
         <p>
-            Welcome to NekoToken (NEKO), a next-generation ERC-20 token launched on Ethereum to empower a community-driven ecosystem. By combining staking opportunities with the external FEED token (<code>0xe9Cb2D7ADC24Fc59FE00D6C0A0669BDF16805Fe0</code>) and the native NEKO token, NekoToken offers a unique dual-staking model designed to reward long-term participation and network stability.
+            NekoToken (NEKO) is an ERC-20 token deployed on Shibarium, a layer-2 blockchain with a 5-second block time, launched on March 22, 2025. It introduces a dual-staking ecosystem where users can stake the native NEKO token and the external FEED token (<code>0xe9Cb2D7ADC24Fc59FE00D6C0A0669BDF16805Fe0</code>) to earn NEKO rewards. With a total supply cap of 1 quadrillion tokens, NekoToken employs a detailed reward reduction mechanism to ensure sustainability over time.
         </p>
         <p>
-            Deployed on March 22, 2025, NekoToken leverages Ethereum’s robust infrastructure to provide a transparent, secure, and sustainable staking platform. This whitepaper details the tokenomics, staking rules, reward mechanics, and vision for the NekoToken ecosystem.
+            This whitepaper provides an in-depth look at the tokenomics, staking rules, and the reward reduction process tailored to Shibarium’s fast block production.
         </p>
     </div>
 
@@ -84,7 +92,7 @@
         <h2>2. Token Specifications</h2>
         <table>
             <tr>
-                <th>Property</th>
+                <th>Attribute</th>
                 <th>Value</th>
             </tr>
             <tr>
@@ -100,159 +108,145 @@
                 <td>18</td>
             </tr>
             <tr>
-                <td>Total Supply Cap</td>
+                <td>Maximum Supply</td>
                 <td>1,000,000,000,000,000 NEKO (1 quadrillion)</td>
             </tr>
             <tr>
                 <td>Blockchain</td>
-                <td>Ethereum (ERC-20)</td>
+                <td>Shibarium</td>
             </tr>
         </table>
         <p>
-            NekoToken adheres to the ERC-20 standard, ensuring seamless integration with wallets, exchanges, and DeFi platforms. The total supply is capped at 1 quadrillion NEKO, distributed exclusively through staking rewards over time.
+            Built on Shibarium, NekoToken benefits from low transaction costs and a 5-second block time, accelerating reward distribution compared to Ethereum’s 12-second blocks.
         </p>
     </div>
 
     <div class="section">
-        <h2>3. Staking Ecosystem</h2>
-        <h3>3.1 FEED Token Staking</h3>
-        <p>
-            FEED staking allows holders of the FEED token to participate in the NekoToken ecosystem by locking a fixed amount of FEED to earn NEKO rewards.
-        </p>
+        <h2>3. Staking Mechanics</h2>
+        <h3>3.1 FEED Staking</h3>
         <ul>
-            <li><strong>Required Amount:</strong> 10 billion FEED (10,000,000,000 * 10^18).</li>
-            <li><strong>Staking Process:</strong> Call <code>stakeFeed()</code> to transfer 10 billion FEED to the contract. Only one stake per address is permitted.</li>
+            <li><strong>Stake Amount:</strong> Fixed at 10 billion FEED (10,000,000,000 * 10^18).</li>
+            <li><strong>Process:</strong> Call <code>stakeFeed()</code>. One stake per address.</li>
             <li><strong>Unstaking:</strong> Call <code>unstakeFeed()</code> to retrieve FEED and claim NEKO rewards.</li>
-            <li><strong>Reward Claiming:</strong> Use <code>claimFeedRewards()</code> to claim NEKO without unstaking.</li>
+            <li><strong>Reward Claim:</strong> <code>claimFeedRewards()</code> for NEKO without unstaking.</li>
         </ul>
-        <div class="example">
-            <strong>Example:</strong> Alice stakes 10 billion FEED on day 1. After 1,000 blocks (~3.3 hours at 12s/block), she earns 500,000 NEKO (500 NEKO/block initially). She can claim this anytime or unstake to retrieve her FEED.
-        </div>
 
-        <h3>3.2 NEKO Token Staking</h3>
-        <p>
-            NEKO staking encourages holders to lock their tokens, enhancing network longevity and rewarding commitment.
-        </p>
+        <h3>3.2 NEKO Staking</h3>
         <ul>
-            <li><strong>Minimum Unit:</strong> 10,000 NEKO (10,000 * 10^18), with staking amounts in multiples of this unit.</li>
-            <li><strong>Staking Process:</strong> Call <code>stakeNeko(amount)</code> to lock NEKO. Users can add to their stake over time.</li>
-            <li><strong>Unstaking:</strong> Call <code>unstakeNeko()</code> to withdraw all staked NEKO and claim rewards.</li>
-            <li><strong>Reward Claiming:</strong> Use <code>claimNekoRewards()</code> to claim NEKO without unstaking.</li>
+            <li><strong>Stake Amount:</strong> Multiples of 10,000 NEKO (10,000 * 10^18).</li>
+            <li><strong>Process:</strong> Call <code>stakeNeko(amount)</code>. Additional staking allowed.</li>
+            <li><strong>Unstaking:</strong> Call <code>unstakeNeko()</code> to withdraw all NEKO and claim rewards.</li>
+            <li><strong>Reward Claim:</strong> <code>claimNekoRewards()</code> for NEKO without unstaking.</li>
         </ul>
-        <div class="example">
-            <strong>Example:</strong> Bob stakes 50,000 NEKO (5 units). After 1,000 blocks, he earns 125 NEKO (0.025 NEKO/block * 5 units * 1,000 blocks). He can later stake more NEKO to increase his rewards.
-        </div>
     </div>
 
     <div class="section">
-        <h2>4. Reward Mechanics</h2>
-        <h3>4.1 FEED Staking Rewards</h3>
+        <h2>4. Reward Mechanics and Reduction Rules</h2>
+        <h3>4.1 Base Reward Parameters</h3>
         <table>
             <tr>
                 <th>Parameter</th>
-                <th>Value</th>
+                <th>FEED Staking</th>
+                <th>NEKO Staking</th>
             </tr>
             <tr>
-                <td>Initial Reward Rate</td>
+                <td>Initial Reward</td>
                 <td>500 NEKO/block</td>
-            </tr>
-            <tr>
-                <td>Minimum Reward Rate</td>
-                <td>10 NEKO/block</td>
-            </tr>
-            <tr>
-                <td>Max Reward Accumulation</td>
-                <td>20,000 blocks (~2.8 days)</td>
-            </tr>
-        </table>
-
-        <h3>4.2 NEKO Staking Rewards</h3>
-        <table>
-            <tr>
-                <th>Parameter</th>
-                <th>Value</th>
-            </tr>
-            <tr>
-                <td>Initial Reward Rate</td>
                 <td>0.025 NEKO/block per 10,000 NEKO</td>
             </tr>
             <tr>
-                <td>Minimum Reward Rate</td>
+                <td>Minimum Reward</td>
+                <td>10 NEKO/block</td>
                 <td>0.00005 NEKO/block per 10,000 NEKO</td>
             </tr>
             <tr>
-                <td>Max Reward Accumulation</td>
-                <td>20,000 blocks (~2.8 days)</td>
+                <td>Max Accumulation</td>
+                <td>20,000 blocks (~27.8 hours)</td>
+                <td>20,000 blocks (~27.8 hours)</td>
             </tr>
         </table>
 
-        <h3>4.3 Reward Decay</h3>
+        <h3>4.2 Detailed Reward Reduction Mechanism</h3>
         <p>
-            Rewards decay over time to ensure long-term sustainability:
+            NekoToken employs a linear reward reduction mechanism to gradually decrease rewards over time, ensuring a balanced emission rate. The reduction is tied to Shibarium’s block production (5 seconds/block) and governed by the following constants:
         </p>
         <ul>
-            <li><strong>Decay Period:</strong> 600,000 blocks (~2.3 months).</li>
-            <li><strong>Formula:</strong> Reward = (Initial Rate * Base) / 50, where Base = 50 - (Blocks / 600,000).</li>
-            <li><strong>End Point:</strong> After 29,400,000 blocks (~11 years), rewards stabilize at the minimum rate.</li>
+            <li><strong>Decay Period:</strong> 600,000 blocks (~34.7 days).</li>
+            <li><strong>Maximum Decay Point:</strong> 29,400,000 blocks (~4.66 years).</li>
+            <li><strong>Base Formula:</strong> Base = 50 - (Elapsed Blocks / 600,000).</li>
+            <li><strong>Reward Formula:</strong> Current Reward = (Initial Reward * Base) / 50.</li>
+            <li><strong>Minimum Threshold:</strong> When Base ≤ 1 (after 29,400,000 blocks), rewards stabilize at the minimum rate.</li>
         </ul>
-        <div class="example">
-            <strong>Example:</strong> After 6,000,000 blocks (~2.3 years), FEED rewards drop to ~400 NEKO/block (Base = 40). After 29,400,000 blocks (~11 years), it’s fixed at 10 NEKO/block.
+
+        <h3>4.3 Step-by-Step Reduction Process</h3>
+        <p>
+            The reward reduction occurs in discrete steps every 600,000 blocks. Here’s how it works:
+        </p>
+        <ol>
+            <li><strong>Initial Phase (0 blocks):</strong> Base = 50, FEED reward = 500 NEKO/block, NEKO reward = 0.025 NEKO/block per 10,000 NEKO.</li>
+            <li><strong>After 600,000 blocks (~34.7 days):</strong> Base = 49, FEED reward = 490 NEKO/block, NEKO reward = 0.0245 NEKO/block per 10,000 NEKO.</li>
+            <li><strong>After 6,000,000 blocks (~347 days):</strong> Base = 40, FEED reward = 400 NEKO/block, NEKO reward = 0.02 NEKO/block per 10,000 NEKO.</li>
+            <li><strong>After 29,400,000 blocks (~4.66 years):</strong> Base = 1, FEED reward = 10 NEKO/block, NEKO reward = 0.00005 NEKO/block per 10,000 NEKO.</li>
+            <li><strong>Beyond 30,000,000 blocks (~4.75 years):</strong> Base ≤ 1, rewards remain at minimum rates until the 1 quadrillion cap is reached.</li>
+        </ol>
+
+        <h3>4.4 Time Calculations on Shibarium</h3>
+        <p>
+            With Shibarium’s 5-second block time:
+        </p>
+        <ul>
+            <li><strong>600,000 blocks:</strong> 600,000 * 5 = 3,000,000 seconds ≈ 34.7 days.</li>
+            <li><strong>29,400,000 blocks:</strong> 29,400,000 * 5 = 147,000,000 seconds ≈ 4.66 years (1,702 days).</li>
+            <li><strong>20,000 blocks (Max Accumulation):</strong> 20,000 * 5 = 100,000 seconds ≈ 27.8 hours.</li>
+        </ul>
+        <div class="highlight">
+            <p><strong>Example:</strong> A user staking 10 billion FEED earns 500 NEKO/block initially. After ~347 days (6M blocks), this drops to 400 NEKO/block. By ~4.66 years (29.4M blocks), it stabilizes at 10 NEKO/block.</p>
         </div>
+
+        <h3>4.5 Economic Implications</h3>
+        <p>
+            The rapid block time accelerates reward distribution, with the full decay cycle completing in ~4.66 years—faster than Ethereum’s ~11 years. This encourages early participation while ensuring rewards remain viable for late adopters at a reduced rate.
+        </p>
     </div>
 
     <div class="section">
-        <h2>5. Tokenomics & Mining</h2>
-        <p>
-            NEKO tokens are minted through staking rewards with a clear cap:
-        </p>
+        <h2>5. Tokenomics</h2>
         <ul>
             <li><strong>Total Supply Cap:</strong> 1 quadrillion NEKO.</li>
-            <li><strong>Mining Duration:</strong> Continues until the cap is reached or indefinitely at minimum rates post-29,400,000 blocks.</li>
-            <li><strong>End Trigger:</strong> Mining halts when total supply hits 1 quadrillion, signaled by the <code>MiningEnded</code> event.</li>
+            <li><strong>Minting:</strong> Via staking rewards only, halting at the cap.</li>
+            <li><strong>Emission Rate:</strong> High initially, reducing over ~4.66 years to a minimal rate.</li>
         </ul>
     </div>
 
     <div class="section">
-        <h2>6. Security & Governance</h2>
+        <h2>6. Security</h2>
         <ul>
-            <li><strong>Reentrancy Protection:</strong> <code>nonReentrant</code> modifier prevents attacks.</li>
-            <li><strong>Ownership:</strong> Managed via <code>Ownable</code>, with transferability restricted to the deployer.</li>
-            <li><strong>Audit-Ready:</strong> Built with Solidity ^0.8.0, leveraging built-in safety features.</li>
+            <li><strong>Reentrancy Guard:</strong> Protects against attacks.</li>
+            <li><strong>Solidity ^0.8.0:</strong> Built-in overflow protection.</li>
+            <li><strong>Shibarium Benefits:</strong> Low gas fees enhance accessibility.</li>
         </ul>
     </div>
 
     <div class="section">
-        <h2>7. Community Incentives</h2>
+        <h2>7. Roadmap</h2>
         <p>
-            NekoToken rewards active participation:
+            <strong>March 2025:</strong> Deployment on Shibarium.<br>
+            <strong>Q2 2025:</strong> Liquidity pools and community growth.<br>
+            <strong>2026:</strong> ~50% reward reduction (~15M blocks).<br>
+            <strong>2029:</strong> Reward stabilization (~4.66 years).<br>
+            <strong>Long-Term:</strong> Full distribution of 1 quadrillion NEKO.
         </p>
-        <ul>
-            <li><strong>FEED Holders:</strong> Bridge into the NEKO ecosystem with high initial yields.</li>
-            <li><strong>NEKO Holders:</strong> Earn compounding rewards by staking, encouraging hodling.</li>
-            <li><strong>Long-Term Vision:</strong> Gradual reward decay balances early adopters and latecomers.</li>
-        </ul>
     </div>
 
     <div class="section">
-        <h2>8. Roadmap</h2>
-        <ul>
-            <li><strong>Q1 2025:</strong> Contract deployment, staking launch, and initial marketing.</li>
-            <li><strong>Q3 2025:</strong> Partnerships with DeFi platforms and liquidity pools.</li>
-            <li><strong>2026:</strong> Community governance proposals for future enhancements.</li>
-            <li><strong>2030:</strong> Mid-point of reward decay (~50% reduction), community expansion focus.</li>
-            <li><strong>2036:</strong> Reward stabilization at minimum rates after 11 years.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>9. Conclusion</h2>
+        <h2>8. Conclusion</h2>
         <p>
-            NekoToken is more than a token—it’s a community-driven staking ecosystem built for sustainability and inclusivity. Whether you’re a FEED holder seeking new opportunities or a NEKO enthusiast aiming for long-term gains, NekoToken offers a rewarding journey. Join us as we redefine staking on Ethereum!
+            NekoToken on Shibarium offers a fast-paced, rewarding staking ecosystem with a meticulously designed reward reduction system. Join us to stake, earn, and grow with NEKO!
         </p>
     </div>
 
     <footer>
-        <p>Published: March 22, 2025 | NekoToken Team | Built with xAI Assistance</p>
+        <p>NekoToken Team | Published March 22, 2025 | Built with xAI Assistance</p>
     </footer>
 </body>
 </html>
