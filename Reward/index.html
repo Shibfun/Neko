@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NekoReward DApp</title>
+    <link rel="icon" type="image/png" href="images/neko.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('images/background.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            line-height: 1.4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            filter: blur(5px);
+            z-index: -1;
+        }
+        .header, .container, footer, .modal { position: relative; z-index: 1; }
+        .header { padding: 15px 0; text-align: center; width: 100%; }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            height: 40px;
+        }
+        .header-top .balance { font-size: 1.2em; color: #F4A261; font-weight: bold; }
+        .header-top .actions { display: flex; gap: 12px; }
+        .action-btn {
+            background: #34495E;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .action-btn:hover { background: #F4A261; }
+        .header-content { padding: 15px 0; }
+        .header-content h1 {
+            font-size: 1.8em;
+            color: #F4A261;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .profile-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .nickname { font-size: 1.1em; font-weight: bold; color: #A8B5D4; margin-right: 5px; }
+        .v-icon { width: 16px; height: 16px; vertical-align: middle; }
+        .miner-gif {
+            width: 80px;
+            height: 80px;
+            background: url('images/miner.gif') no-repeat center;
+            background-size: contain;
+            margin: 0 auto 10px;
+        }
+        .miner-prompt {
+            font-size: 0.9em;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 10px;
+            animation: fade 3s infinite;
+        }
+        @keyframes fade { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+        .container {
+            width: 100%;
+            max-width: 420px;
+            padding: 0 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .section {
+            background: rgba(44, 62, 80, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            border: 1px solid #F4A261;
+        }
+        .section-title {
+            font-size: 1.3em;
+            color: #F4A261;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        button {
+            background: #F4A261;
+            color: #fff;
+            border: none;
+            padding: 12px 0;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            background: #E07A5F;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
+        }
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        button.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        .info-panel {
+            background: #34495E;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: #fff;
+            line-height: 1.6;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #2C3E50;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: #fff;
+            max-width: 320px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .modal-content p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        .modal-content button {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.95em;
+        }
+        footer {
+            background: rgba(30, 42, 68, 0.8);
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            color: #A8B5D4;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+        @media (max-width: 480px) {
+            .header-content h1 { font-size: 1.5em; }
+            .miner-gif { width: 60px; height: 60px; }
+            button { padding: 10px 0; font-size: 0.9em; max-width: 180px; }
+            .miner-prompt { font-size: 0.8em; }
+            .nickname { font-size: 1em; }
+            .v-icon { width: 14px; height: 14px; }
+            .section { padding: 15px; }
+            .container { max-width: 100%; padding: 0 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            <span id="nekoBalance">0 NEKO</span>
+            <div class="actions">
+                <button class="action-btn" onclick="window.open('https://x.com/feedcto', '_blank')"><i class="fab fa-twitter"></i></button>
+                <button class="action-btn" onclick="window.open('https://t.me/feedcto', '_blank')"><i class="fab fa-telegram-plane"></i></button>
+            </div>
+        </div>
+        <div class="header-content">
+            <h1>NekoReward DApp</h1>
+            <div class="profile-section">
+                <span class="nickname" id="userNickname">Not connected</span>
+                <img class="v-icon" id="vIcon" src="" alt="" style="display: none;">
+            </div>
+            <div class="miner-gif"></div>
+            <div class="miner-prompt" id="minerPrompt"></div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="section">
+            <div class="section-title">Connect Wallet</div>
+            <div class="button-group">
+                <button id="connectButton">Connect MetaMask</button>
+            </div>
+            <div class="info-panel">Wallet: <span id="walletAddress">Not connected</span></div>
+        </div>
+        <div class="section" id="feedStakeSection">
+            <div class="section-title">Stake FEED</div>
+            <div class="input-group">
+                <input type="text" id="stakeFeedAmountInput" placeholder="Amount (Multiple of 1M FEED)">
+            </div>
+            <div class="button-group">
+                <button id="stakeFeedButton">Stake</button>
+                <button id="unstakeFeedButton" disabled>Unstake</button>
+                <button id="claimFeedRewardsButton" disabled>Claim Rewards</button>
+            </div>
+            <div class="info-panel" id="feedStakeInfo">FEED Staked: None<br>Rewards: 0 NEKO</div>
+        </div>
+    </div>
+    <footer>Powered by Shibarium © 2025</footer>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <p id="modalMessage"></p>
+            <button onclick="closeModal()">OK</button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
+    <script>
+        let web3, accounts, nekoRewardContract, feedContract;
+        const NEKO_REWARD_CONTRACT_ADDRESS = "0xAF2f92CebA4A03c35aa72CD5Fd9c85294032D80a";
+        const FEED_CONTRACT_ADDRESS = "0xe9Cb2D7ADC24Fc59FE00D6C0A0669BDF16805Fe0";
+        const NEKO_CONTRACT_ADDRESS = "0x63A67329f761517570345eE86f791F74f9DC5461";
+        const NEKO_REWARD_ABI = [
+            {
+                "inputs": [],
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "FeedStaked",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "FeedUnstaked",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "owner",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "NekoDeposited",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "owner",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "NekoWithdrawn",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "previousOwner",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "newOwner",
+                        "type": "address"
+                    }
+                ],
+                "name": "OwnershipTransferred",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "RewardsClaimed",
+                "type": "event"
+            },
+            {
+                "inputs": [],
+                "name": "FEED",
+                "outputs": [
+                    {
+                        "internalType": "contract IERC20",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "MIN_STAKE_UNIT",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "NEKO",
+                "outputs": [
+                    {
+                        "internalType": "contract IERC20",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "REWARD_PER_BLOCK",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    }
+                ],
+                "name": "calculateFeedReward",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "claimFeedRewards",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "depositNeko",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    }
+                ],
+                "name": "feedUserInfo",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "lastRewardBlock",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "getContractNekoBalance",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    }
+                ],
+                "name": "getFeedPendingRewards",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    }
+                ],
+                "name": "getFeedStakeInfo",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "lastBlock",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "reward",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "owner",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "stakeFeed",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "totalFeedStaked",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "newOwner",
+                        "type": "address"
+                    }
+                ],
+                "name": "transferOwnership",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "unstakeFeed",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "withdrawNeko",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            }
+        ];
+        const FEED_ABI = [
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "spender",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "approve",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "account",
+                        "type": "address"
+                    }
+                ],
+                "name": "balanceOf",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
+        const shibariumMainnet = {
+            chainId: 109,
+            chainName: 'Shibarium',
+            nativeCurrency: { name: 'BONE', symbol: 'BONE', decimals: 18 },
+            rpcUrls: ['https://www.shibrpc.com'],
+            blockExplorerUrls: ['https://shibariumscan.io']
+        };
+        const prompts = [
+            "⛏️ Stake your FEED to earn NEKO rewards!",
+            "💎 Dig deeper for more NEKO rewards!",
+            "⚡ Power up your staking for big wins!",
+            "🚀 Stake now and watch your NEKO grow!",
+            "🔥 Hot staking action! Rewards await!"
+        ];
+        let promptIndex = 0;
+        const BLOCK_TIME = 5;
+        const MIN_STAKE_UNIT = 1000000; // 1M FEED in ether units
+
+        function showModal(message) {
+            document.getElementById('modalMessage').innerHTML = message;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function updatePrompt() {
+            document.getElementById('minerPrompt').innerText = prompts[promptIndex];
+            promptIndex = (promptIndex + 1) % prompts.length;
+        }
+
+        async function updateNekoBalance() {
+            if (!web3 || !nekoRewardContract || !accounts) return;
+            const nekoContract = new web3.eth.Contract(FEED_ABI, NEKO_CONTRACT_ADDRESS); // Use FEED_ABI for basic ERC20 functions
+            const balance = await nekoContract.methods.balanceOf(accounts[0]).call();
+            document.getElementById('nekoBalance').innerText = `${parseFloat(web3.utils.fromWei(balance, 'ether')).toFixed(2)} NEKO`;
+        }
+
+        async function updateFeedStakeInfo() {
+            if (!web3 || !nekoRewardContract || !accounts) {
+                document.getElementById('feedStakeInfo').innerHTML = 'FEED Staked: None<br>Rewards: 0 NEKO';
+                document.getElementById('unstakeFeedButton').disabled = true;
+                document.getElementById('claimFeedRewardsButton').disabled = true;
+                return;
+            }
+            const stakeInfo = await nekoRewardContract.methods.getFeedStakeInfo(accounts[0]).call();
+            const amount = stakeInfo[0] === '0' ? 'None' : parseFloat(web3.utils.fromWei(stakeInfo[0], 'ether')).toFixed(2);
+            const reward = parseFloat(web3.utils.fromWei(stakeInfo[2], 'ether')).toFixed(4);
+            document.getElementById('feedStakeInfo').innerHTML = `FEED Staked: ${amount}<br>Rewards: ${reward} NEKO`;
+            document.getElementById('unstakeFeedButton').disabled = stakeInfo[0] === '0';
+            document.getElementById('claimFeedRewardsButton').disabled = stakeInfo[0] === '0' || stakeInfo[2] === '0';
+        }
+
+        async function updateUserAddress() {
+            if (!accounts) {
+                document.getElementById('userNickname').innerText = 'Not connected';
+                document.getElementById('walletAddress').innerText = 'Not connected';
+            } else {
+                const shortAddress = `${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`;
+                document.getElementById('userNickname').innerText = shortAddress;
+                document.getElementById('walletAddress').innerText = shortAddress;
+            }
+        }
+
+        async function connectWallet() {
+            const connectButton = document.getElementById('connectButton');
+            try {
+                if (!window.ethereum) {
+                    showModal('No wallet detected. Please install <a href="https://metamask.io" target="_blank">MetaMask</a>.');
+                    return;
+                }
+                connectButton.classList.add('loading');
+                web3 = new Web3(window.ethereum);
+                accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                if (!accounts.length) {
+                    showModal('Please unlock your wallet or connect it.');
+                    return;
+                }
+                const chainId = await web3.eth.getChainId();
+                if (chainId !== 109) {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: web3.utils.numberToHex(109) }]
+                        });
+                    } catch (switchError) {
+                        if (switchError.code === 4902) {
+                            await window.ethereum.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [shibariumMainnet]
+                            });
+                        } else {
+                            showModal('Failed to switch network. Please add Shibarium manually.');
+                            return;
+                        }
+                    }
+                }
+                nekoRewardContract = new web3.eth.Contract(NEKO_REWARD_ABI, NEKO_REWARD_CONTRACT_ADDRESS);
+                feedContract = new web3.eth.Contract(FEED_ABI, FEED_CONTRACT_ADDRESS);
+                showModal('Connected to Shibarium successfully! 🎉');
+                updateUserAddress();
+                updateNekoBalance();
+                updateFeedStakeInfo();
+            } catch (error) {
+                showModal(`Connection failed: ${error.message}`);
+            } finally {
+                connectButton.classList.remove('loading');
+            }
+        }
+
+        async function stakeFeed() {
+            if (!web3 || !nekoRewardContract || !feedContract || !accounts) {
+                showModal('Please connect your wallet first! 🔧');
+                return;
+            }
+            const stakeButton = document.getElementById('stakeFeedButton');
+            const amount = document.getElementById('stakeFeedAmountInput').value;
+            if (!amount || amount < MIN_STAKE_UNIT || amount % MIN_STAKE_UNIT !== 0) {
+                showModal(`Amount must be a multiple of ${MIN_STAKE_UNIT} FEED!`);
+                return;
+            }
+            try {
+                stakeButton.classList.add('loading');
+                const weiAmount = web3.utils.toWei(amount, 'ether');
+                showModal(`Approving ${amount} FEED for staking...`);
+                await feedContract.methods.approve(NEKO_REWARD_CONTRACT_ADDRESS, weiAmount).send({ from: accounts[0] });
+                showModal(`Staking ${amount} FEED... ⛏️`);
+                await nekoRewardContract.methods.stakeFeed(weiAmount).send({ from: accounts[0] });
+                showModal(`Successfully staked ${amount} FEED! 🚀`);
+                updateNekoBalance();
+                updateFeedStakeInfo();
+            } catch (error) {
+                showModal(`Staking failed: ${error.message}`);
+            } finally {
+                stakeButton.classList.remove('loading');
+            }
+        }
+
+        async function unstakeFeed() {
+            if (!web3 || !nekoRewardContract || !accounts) {
+                showModal('Please connect your wallet first! 🔧');
+                return;
+            }
+            const unstakeButton = document.getElementById('unstakeFeedButton');
+            try {
+                unstakeButton.classList.add('loading');
+                showModal('Unstaking FEED and claiming rewards... 💸');
+                await nekoRewardContract.methods.unstakeFeed().send({ from: accounts[0] });
+                showModal('Successfully unstaked FEED! 🎊');
+                updateNekoBalance();
+                updateFeedStakeInfo();
+            } catch (error) {
+                showModal(`Unstaking failed: ${error.message}`);
+            } finally {
+                unstakeButton.classList.remove('loading');
+            }
+        }
+
+        async function claimFeedRewards() {
+            if (!web3 || !nekoRewardContract || !accounts) {
+                showModal('Please connect your wallet first! 🔧');
+                return;
+            }
+            const claimButton = document.getElementById('claimFeedRewardsButton');
+            try {
+                claimButton.classList.add('loading');
+                showModal('Claiming FEED rewards... 💰');
+                await nekoRewardContract.methods.claimFeedRewards().send({ from: accounts[0] });
+                showModal('Successfully claimed FEED rewards! 🎉');
+                updateNekoBalance();
+                updateFeedStakeInfo();
+            } catch (error) {
+                showModal(`Claim failed: ${error.message}`);
+            } finally {
+                claimButton.classList.remove('loading');
+            }
+        }
+
+        setInterval(updatePrompt, 3000);
+        setInterval(() => {
+            updateNekoBalance();
+            updateFeedStakeInfo();
+        }, 5000);
+
+        document.getElementById('connectButton').addEventListener('click', connectWallet);
+        document.getElementById('stakeFeedButton').addEventListener('click', stakeFeed);
+        document.getElementById('unstakeFeedButton').addEventListener('click', unstakeFeed);
+        document.getElementById('claimFeedRewardsButton').addEventListener('click', claimFeedRewards);
+
+        window.ethereum?.on('chainChanged', (chainId) => {
+            if (parseInt(chainId, 16) !== 109) {
+                showModal('Switched to wrong network. Please reconnect to Shibarium.');
+                web3 = null;
+                nekoRewardContract = null;
+                feedContract = null;
+                accounts = null;
+                updateUserAddress();
+            } else {
+                connectWallet();
+            }
+        });
+
+        window.ethereum?.on('accountsChanged', (newAccounts) => {
+            if (newAccounts.length) {
+                connectWallet();
+            } else {
+                showModal('Wallet disconnected. Please reconnect.');
+                web3 = null;
+                nekoRewardContract = null;
+                feedContract = null;
+                accounts = null;
+                updateUserAddress();
+            }
+        });
+
+        window.addEventListener('load', () => {
+            if (!window.location.protocol.startsWith('http')) {
+                showModal('Please run this page via a local server (e.g., "npx serve") to connect MetaMask.');
+            } else if (!window.ethereum) {
+                showModal('No wallet detected. Please install <a href="https://metamask.io" target="_blank">MetaMask</a>.');
+            }
+        });
+    </script>
+</body>
+</html>
