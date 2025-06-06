@@ -10,8 +10,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Arial', sans-serif;
-            background: url('images/background.png') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(135deg, #D2B48C 0%, #8B4513 100%);
             color: #fff;
             line-height: 1.4;
             display: flex;
@@ -20,17 +19,6 @@
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
-        }
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: inherit;
-            filter: blur(5px);
-            z-index: -1;
         }
         .header, .container, footer, .modal { position: relative; z-index: 1; }
         .header { padding: 15px 0; text-align: center; width: 100%; }
@@ -41,10 +29,10 @@
             padding: 0 20px;
             height: 40px;
         }
-        .header-top .balance { font-size: 1.2em; color: #F4A261; font-weight: bold; }
+        .header-top .balance { font-size: 1.1em; color: #F4A261; font-weight: bold; }
         .header-top .actions { display: flex; gap: 12px; }
         .action-btn {
-            background: #34495E;
+            background: #8B4513;
             color: #fff;
             border: none;
             padding: 8px 12px;
@@ -59,6 +47,8 @@
             color: #F4A261;
             text-transform: uppercase;
             margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
         .profile-section {
             display: flex;
@@ -66,15 +56,7 @@
             justify-content: center;
             margin-bottom: 10px;
         }
-        .nickname { font-size: 1.1em; font-weight: bold; color: #A8B5D4; margin-right: 5px; }
-        .v-icon { width: 16px; height: 16px; vertical-align: middle; }
-        .miner-gif {
-            width: 80px;
-            height: 80px;
-            background: url('images/miner.gif') no-repeat center;
-            background-size: contain;
-            margin: 0 auto 10px;
-        }
+        .nickname { font-size: 1.1em; font-weight: bold; color: #D2B48C; }
         .miner-prompt {
             font-size: 0.9em;
             color: #fff;
@@ -98,13 +80,14 @@
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             text-align: center;
-            border: 1px solid #F4A261;
+            border: 2px solid #F4A261;
         }
         .section-title {
             font-size: 1.3em;
             color: #F4A261;
             margin-bottom: 15px;
             text-transform: uppercase;
+            font-weight: 600;
         }
         .button-group {
             display: flex;
@@ -142,6 +125,62 @@
             opacity: 0.7;
             pointer-events: none;
         }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+            position: relative;
+        }
+        input {
+            padding: 12px 12px 12px 40px;
+            border: 2px solid #F4A261;
+            border-radius: 25px;
+            background: #34495E;
+            color: #fff;
+            font-size: 1em;
+            text-align: center;
+            transition: box-shadow 0.3s, background 0.3s, border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 8px #F4A261;
+            background: #3A536B;
+            border-color: #E07A5F;
+        }
+        .input-group::before {
+            content: '\f6d3';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: #F4A261;
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2em;
+        }
+        .percentage-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        .percentage-btn {
+            background: #F4A261;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        .percentage-btn:hover {
+            background: #E07A5F;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
         .info-panel {
             background: #34495E;
             padding: 10px;
@@ -170,6 +209,7 @@
             color: #fff;
             max-width: 320px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border: 2px solid #F4A261;
         }
         .modal-content p {
             margin-bottom: 15px;
@@ -185,17 +225,17 @@
             text-align: center;
             padding: 15px;
             width: 100%;
-            color: #A8B5D4;
+            color: #D2B48C;
             font-size: 0.9em;
             margin-top: 20px;
         }
         @media (max-width: 480px) {
             .header-content h1 { font-size: 1.5em; }
-            .miner-gif { width: 60px; height: 60px; }
             button { padding: 10px 0; font-size: 0.9em; max-width: 180px; }
+            input { font-size: 0.9em; padding: 10px 10px 10px 35px; }
+            .percentage-btn { padding: 8px 12px; font-size: 0.85em; }
             .miner-prompt { font-size: 0.8em; }
             .nickname { font-size: 1em; }
-            .v-icon { width: 14px; height: 14px; }
             .section { padding: 15px; }
             .container { max-width: 100%; padding: 0 10px; }
         }
@@ -204,19 +244,19 @@
 <body>
     <div class="header">
         <div class="header-top">
-            <span id="nekoBalance">0 NEKO</span>
+            <div class="balance">
+                <span id="feedBalance">0 FEED</span> | <span id="nekoBalance">0 NEKO</span>
+            </div>
             <div class="actions">
                 <button class="action-btn" onclick="window.open('https://x.com/feedcto', '_blank')"><i class="fab fa-twitter"></i></button>
                 <button class="action-btn" onclick="window.open('https://t.me/feedcto', '_blank')"><i class="fab fa-telegram-plane"></i></button>
             </div>
         </div>
         <div class="header-content">
-            <h1>NekoReward DApp</h1>
+            <h1>NekoReward DApp 🐶</h1>
             <div class="profile-section">
                 <span class="nickname" id="userNickname">Not connected</span>
-                <img class="v-icon" id="vIcon" src="" alt="" style="display: none;">
             </div>
-            <div class="miner-gif"></div>
             <div class="miner-prompt" id="minerPrompt"></div>
         </div>
     </div>
@@ -224,33 +264,39 @@
         <div class="section">
             <div class="section-title">Connect Wallet</div>
             <div class="button-group">
-                <button id="connectButton">Connect MetaMask</button>
+                <button id="connectButton">Connect MetaMask 🐶</button>
             </div>
             <div class="info-panel">Wallet: <span id="walletAddress">Not connected</span></div>
         </div>
         <div class="section" id="feedStakeSection">
-            <div class="section-title">Stake FEED</div>
+            <div class="section-title">Stake FEED 🐾</div>
             <div class="input-group">
-                <input type="text" id="stakeFeedAmountInput" placeholder="Amount (Multiple of 1M FEED)">
+                <input type="number" id="stakeFeedAmountInput" placeholder="Amount (Multiple of 1M FEED)">
+            </div>
+            <div class="percentage-buttons">
+                <button class="percentage-btn" onclick="setFeedStakePercentage(25)">25%</button>
+                <button class="percentage-btn" onclick="setFeedStakePercentage(50)">50%</button>
+                <button class="percentage-btn" onclick="setFeedStakePercentage(75)">75%</button>
+                <button class="percentage-btn" onclick="setFeedStakePercentage(100)">100%</button>
             </div>
             <div class="button-group">
-                <button id="stakeFeedButton">Stake</button>
-                <button id="unstakeFeedButton" disabled>Unstake</button>
-                <button id="claimFeedRewardsButton" disabled>Claim Rewards</button>
+                <button id="stakeFeedButton">Stake 🐶</button>
+                <button id="unstakeFeedButton" disabled>Unstake 🐾</button>
+                <button id="claimFeedRewardsButton" disabled>Claim Rewards 💰</button>
             </div>
             <div class="info-panel" id="feedStakeInfo">FEED Staked: None<br>Rewards: 0 NEKO</div>
         </div>
     </div>
-    <footer>Powered by Shibarium © 2025</footer>
+    <footer>Powered by Shibarium 🐶 © 2025</footer>
     <div id="modal" class="modal">
         <div class="modal-content">
             <p id="modalMessage"></p>
-            <button onclick="closeModal()">OK</button>
+            <button onclick="closeModal()">OK 🐶</button>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
     <script>
-        let web3, accounts, nekoRewardContract, feedContract;
+        let web3, accounts, nekoRewardContract, feedContract, nekoContract;
         const NEKO_REWARD_CONTRACT_ADDRESS = "0xAF2f92CebA4A03c35aa72CD5Fd9c85294032D80a";
         const FEED_CONTRACT_ADDRESS = "0xe9Cb2D7ADC24Fc59FE00D6C0A0669BDF16805Fe0";
         const NEKO_CONTRACT_ADDRESS = "0x63A67329f761517570345eE86f791F74f9DC5461";
@@ -263,18 +309,8 @@
             {
                 "anonymous": false,
                 "inputs": [
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
+                    {"indexed": true, "internalType": "address", "name": "user", "type": "address"},
+                    {"indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256"}
                 ],
                 "name": "FeedStaked",
                 "type": "event"
@@ -282,18 +318,8 @@
             {
                 "anonymous": false,
                 "inputs": [
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
+                    {"indexed": true, "internalType": "address", "name": "user", "type": "address"},
+                    {"indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256"}
                 ],
                 "name": "FeedUnstaked",
                 "type": "event"
@@ -301,18 +327,8 @@
             {
                 "anonymous": false,
                 "inputs": [
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "owner",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
+                    {"indexed": true, "internalType": "address", "name": "owner", "type": "address"},
+                    {"indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256"}
                 ],
                 "name": "NekoDeposited",
                 "type": "event"
@@ -320,18 +336,8 @@
             {
                 "anonymous": false,
                 "inputs": [
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "owner",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
+                    {"indexed": true, "internalType": "address", "name": "owner", "type": "address"},
+                    {"indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256"}
                 ],
                 "name": "NekoWithdrawn",
                 "type": "event"
@@ -339,18 +345,8 @@
             {
                 "anonymous": false,
                 "inputs": [
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "previousOwner",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "newOwner",
-                        "type": "address"
-                    }
+                    {"indexed": true, "internalType": "address", "name": "previousOwner", "type": "address"},
+                    {"indexed": true, "internalType": "address", "name": "newOwner", "type": "address"}
                 ],
                 "name": "OwnershipTransferred",
                 "type": "event"
@@ -358,18 +354,8 @@
             {
                 "anonymous": false,
                 "inputs": [
-                    {
-                        "indexed": true,
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
+                    {"indexed": true, "internalType": "address", "name": "user", "type": "address"},
+                    {"indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256"}
                 ],
                 "name": "RewardsClaimed",
                 "type": "event"
@@ -377,71 +363,35 @@
             {
                 "inputs": [],
                 "name": "FEED",
-                "outputs": [
-                    {
-                        "internalType": "contract IERC20",
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
+                "outputs": [{"internalType": "contract IERC20", "name": "", "type": "address"}],
                 "stateMutability": "view",
                 "type": "function"
             },
             {
                 "inputs": [],
                 "name": "MIN_STAKE_UNIT",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
                 "stateMutability": "view",
                 "type": "function"
             },
             {
                 "inputs": [],
                 "name": "NEKO",
-                "outputs": [
-                    {
-                        "internalType": "contract IERC20",
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
+                "outputs": [{"internalType": "contract IERC20", "name": "", "type": "address"}],
                 "stateMutability": "view",
                 "type": "function"
             },
             {
                 "inputs": [],
                 "name": "REWARD_PER_BLOCK",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
                 "stateMutability": "view",
                 "type": "function"
             },
             {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    }
-                ],
+                "inputs": [{"internalType": "address", "name": "user", "type": "address"}],
                 "name": "calculateFeedReward",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
                 "stateMutability": "view",
                 "type": "function"
             },
@@ -453,38 +403,18 @@
                 "type": "function"
             },
             {
-                "inputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
-                ],
+                "inputs": [{"internalType": "uint256", "name": "amount", "type": "uint256"}],
                 "name": "depositNeko",
                 "outputs": [],
                 "stateMutability": "nonpayable",
                 "type": "function"
             },
             {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    }
-                ],
+                "inputs": [{"internalType": "address", "name": "user", "type": "address"}],
                 "name": "feedUserInfo",
                 "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "lastRewardBlock",
-                        "type": "uint256"
-                    }
+                    {"internalType": "uint256", "name": "amount", "type": "uint256"},
+                    {"internalType": "uint256", "name": "lastRewardBlock", "type": "uint256"}
                 ],
                 "stateMutability": "view",
                 "type": "function"
@@ -492,60 +422,24 @@
             {
                 "inputs": [],
                 "name": "getContractNekoBalance",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
                 "stateMutability": "view",
                 "type": "function"
             },
             {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    }
-                ],
+                "inputs": [{"internalType": "address", "name": "user", "type": "address"}],
                 "name": "getFeedPendingRewards",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
                 "stateMutability": "view",
                 "type": "function"
             },
             {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "user",
-                        "type": "address"
-                    }
-                ],
+                "inputs": [{"internalType": "address", "name": "user", "type": "address"}],
                 "name": "getFeedStakeInfo",
                 "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "lastBlock",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "reward",
-                        "type": "uint256"
-                    }
+                    {"internalType": "uint256", "name": "amount", "type": "uint256"},
+                    {"internalType": "uint256", "name": "lastBlock", "type": "uint256"},
+                    {"internalType": "uint256", "name": "reward", "type": "uint256"}
                 ],
                 "stateMutability": "view",
                 "type": "function"
@@ -553,24 +447,12 @@
             {
                 "inputs": [],
                 "name": "owner",
-                "outputs": [
-                    {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
+                "outputs": [{"internalType": "address", "name": "", "type": "address"}],
                 "stateMutability": "view",
                 "type": "function"
             },
             {
-                "inputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
-                ],
+                "inputs": [{"internalType": "uint256", "name": "amount", "type": "uint256"}],
                 "name": "stakeFeed",
                 "outputs": [],
                 "stateMutability": "nonpayable",
@@ -579,24 +461,12 @@
             {
                 "inputs": [],
                 "name": "totalFeedStaked",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
                 "stateMutability": "view",
                 "type": "function"
             },
             {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "newOwner",
-                        "type": "address"
-                    }
-                ],
+                "inputs": [{"internalType": "address", "name": "newOwner", "type": "address"}],
                 "name": "transferOwnership",
                 "outputs": [],
                 "stateMutability": "nonpayable",
@@ -610,60 +480,38 @@
                 "type": "function"
             },
             {
-                "inputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
-                ],
+                "inputs": [{"internalType": "uint256", "name": "amount", "type": "uint256"}],
                 "name": "withdrawNeko",
                 "outputs": [],
                 "stateMutability": "nonpayable",
                 "type": "function"
             }
         ];
-        const FEED_ABI = [
+        const ERC20_ABI = [
             {
                 "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "spender",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
+                    {"internalType": "address", "name": "spender", "type": "address"},
+                    {"internalType": "uint256", "name": "amount", "type": "uint256"}
                 ],
                 "name": "approve",
-                "outputs": [
-                    {
-                        "internalType": "bool",
-                        "name": "",
-                        "type": "bool"
-                    }
-                ],
+                "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
                 "stateMutability": "nonpayable",
                 "type": "function"
             },
             {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "account",
-                        "type": "address"
-                    }
-                ],
+                "inputs": [{"internalType": "address", "name": "account", "type": "address"}],
                 "name": "balanceOf",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {"internalType": "address", "name": "owner", "type": "address"},
+                    {"internalType": "address", "name": "spender", "type": "address"}
                 ],
+                "name": "allowance",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
                 "stateMutability": "view",
                 "type": "function"
             }
@@ -676,15 +524,15 @@
             blockExplorerUrls: ['https://shibariumscan.io']
         };
         const prompts = [
-            "⛏️ Stake your FEED to earn NEKO rewards!",
-            "💎 Dig deeper for more NEKO rewards!",
-            "⚡ Power up your staking for big wins!",
-            "🚀 Stake now and watch your NEKO grow!",
-            "🔥 Hot staking action! Rewards await!"
+            "🐶 Stake FEED to earn NEKO treats!",
+            "🐾 Dig for NEKO rewards, good pup!",
+            "⚡ Power up your staking, Shiba style!",
+            "🚀 Stake FEED and fetch NEKO bones!",
+            "🔥 Bark for rewards, stake now!"
         ];
         let promptIndex = 0;
-        const BLOCK_TIME = 5;
-        const MIN_STAKE_UNIT = 1000000; // 1M FEED in ether units
+        const MIN_STAKE_UNIT = 1000000;
+        const MAX_APPROVAL = "115792089237316195423570985008687907853269984665640564039457584007913129639935";
 
         function showModal(message) {
             document.getElementById('modalMessage').innerHTML = message;
@@ -700,11 +548,12 @@
             promptIndex = (promptIndex + 1) % prompts.length;
         }
 
-        async function updateNekoBalance() {
-            if (!web3 || !nekoRewardContract || !accounts) return;
-            const nekoContract = new web3.eth.Contract(FEED_ABI, NEKO_CONTRACT_ADDRESS); // Use FEED_ABI for basic ERC20 functions
-            const balance = await nekoContract.methods.balanceOf(accounts[0]).call();
-            document.getElementById('nekoBalance').innerText = `${parseFloat(web3.utils.fromWei(balance, 'ether')).toFixed(2)} NEKO`;
+        async function updateBalances() {
+            if (!web3 || !accounts) return;
+            const feedBalance = await feedContract.methods.balanceOf(accounts[0]).call();
+            const nekoBalance = await nekoContract.methods.balanceOf(accounts[0]).call();
+            document.getElementById('feedBalance').innerText = `${parseFloat(web3.utils.fromWei(feedBalance, 'ether')).toFixed(2)} FEED`;
+            document.getElementById('nekoBalance').innerText = `${parseFloat(web3.utils.fromWei(nekoBalance, 'ether')).toFixed(2)} NEKO`;
         }
 
         async function updateFeedStakeInfo() {
@@ -737,14 +586,14 @@
             const connectButton = document.getElementById('connectButton');
             try {
                 if (!window.ethereum) {
-                    showModal('No wallet detected. Please install <a href="https://metamask.io" target="_blank">MetaMask</a>.');
+                    showModal('No wallet detected, pup! Install <a href="https://metamask.io" target="_blank">MetaMask</a>. 🐶');
                     return;
                 }
                 connectButton.classList.add('loading');
                 web3 = new Web3(window.ethereum);
                 accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 if (!accounts.length) {
-                    showModal('Please unlock your wallet or connect it.');
+                    showModal('Unlock your wallet, good doggo! 🐾');
                     return;
                 }
                 const chainId = await web3.eth.getChainId();
@@ -761,47 +610,74 @@
                                 params: [shibariumMainnet]
                             });
                         } else {
-                            showModal('Failed to switch network. Please add Shibarium manually.');
+                            showModal('Failed to switch to Shibarium, pup! Add it manually. 🐶');
                             return;
                         }
                     }
                 }
                 nekoRewardContract = new web3.eth.Contract(NEKO_REWARD_ABI, NEKO_REWARD_CONTRACT_ADDRESS);
-                feedContract = new web3.eth.Contract(FEED_ABI, FEED_CONTRACT_ADDRESS);
-                showModal('Connected to Shibarium successfully! 🎉');
+                feedContract = new web3.eth.Contract(ERC20_ABI, FEED_CONTRACT_ADDRESS);
+                nekoContract = new web3.eth.Contract(ERC20_ABI, NEKO_CONTRACT_ADDRESS);
+                showModal('Connected to Shibarium, good boy! 🎉🐶');
                 updateUserAddress();
-                updateNekoBalance();
+                updateBalances();
                 updateFeedStakeInfo();
             } catch (error) {
-                showModal(`Connection failed: ${error.message}`);
+                showModal(`Connection failed, pup: ${error.message} 🐾`);
             } finally {
                 connectButton.classList.remove('loading');
             }
         }
 
+        async function setFeedStakePercentage(percentage) {
+            if (!web3 || !feedContract || !accounts) {
+                showModal('Connect your wallet first, pup! 🔧🐶');
+                return;
+            }
+            try {
+                const balance = await feedContract.methods.balanceOf(accounts[0]).call();
+                const balanceEther = parseFloat(web3.utils.fromWei(balance, 'ether'));
+                const maxUnits = Math.floor(balanceEther / MIN_STAKE_UNIT);
+                if (maxUnits < 1) {
+                    document.getElementById('stakeFeedAmountInput').value = 0;
+                    showModal('Not enough FEED, pup! Need at least 1M FEED. 🐾');
+                    return;
+                }
+                const units = Math.floor(maxUnits * percentage / 100);
+                const stakeAmount = units * MIN_STAKE_UNIT;
+                document.getElementById('stakeFeedAmountInput').value = stakeAmount;
+                showModal(`Set to stake ${stakeAmount} FEED (${percentage}%), good choice! 🐶`);
+            } catch (error) {
+                showModal(`Failed to fetch balance, pup: ${error.message} 🐾`);
+            }
+        }
+
         async function stakeFeed() {
             if (!web3 || !nekoRewardContract || !feedContract || !accounts) {
-                showModal('Please connect your wallet first! 🔧');
+                showModal('Connect your wallet first, pup! 🔧🐶');
                 return;
             }
             const stakeButton = document.getElementById('stakeFeedButton');
-            const amount = document.getElementById('stakeFeedAmountInput').value;
+            const amount = parseFloat(document.getElementById('stakeFeedAmountInput').value);
             if (!amount || amount < MIN_STAKE_UNIT || amount % MIN_STAKE_UNIT !== 0) {
-                showModal(`Amount must be a multiple of ${MIN_STAKE_UNIT} FEED!`);
+                showModal(`Amount must be a multiple of ${MIN_STAKE_UNIT} FEED, pup! 🐾`);
                 return;
             }
             try {
                 stakeButton.classList.add('loading');
-                const weiAmount = web3.utils.toWei(amount, 'ether');
-                showModal(`Approving ${amount} FEED for staking...`);
-                await feedContract.methods.approve(NEKO_REWARD_CONTRACT_ADDRESS, weiAmount).send({ from: accounts[0] });
-                showModal(`Staking ${amount} FEED... ⛏️`);
+                const weiAmount = web3.utils.toWei(amount.toString(), 'ether');
+                const allowance = await feedContract.methods.allowance(accounts[0], NEKO_REWARD_CONTRACT_ADDRESS).call();
+                if (parseFloat(allowance) < parseFloat(weiAmount)) {
+                    showModal('Approving max FEED for staking, good pup... 🐶');
+                    await feedContract.methods.approve(NEKO_REWARD_CONTRACT_ADDRESS, MAX_APPROVAL).send({ from: accounts[0] });
+                }
+                showModal(`Staking ${amount} FEED, fetch those rewards! ⛏️🐾`);
                 await nekoRewardContract.methods.stakeFeed(weiAmount).send({ from: accounts[0] });
-                showModal(`Successfully staked ${amount} FEED! 🚀`);
-                updateNekoBalance();
+                showModal(`Successfully staked ${amount} FEED, great job pup! 🚀🐶`);
+                updateBalances();
                 updateFeedStakeInfo();
             } catch (error) {
-                showModal(`Staking failed: ${error.message}`);
+                showModal(`Staking failed, pup: ${error.message} 🐾`);
             } finally {
                 stakeButton.classList.remove('loading');
             }
@@ -809,19 +685,19 @@
 
         async function unstakeFeed() {
             if (!web3 || !nekoRewardContract || !accounts) {
-                showModal('Please connect your wallet first! 🔧');
+                showModal('Connect your wallet first, pup! 🔧🐶');
                 return;
             }
             const unstakeButton = document.getElementById('unstakeFeedButton');
             try {
                 unstakeButton.classList.add('loading');
-                showModal('Unstaking FEED and claiming rewards... 💸');
+                showModal('Unstaking FEED and claiming rewards, good doggo... 💸🐾');
                 await nekoRewardContract.methods.unstakeFeed().send({ from: accounts[0] });
-                showModal('Successfully unstaked FEED! 🎊');
-                updateNekoBalance();
+                showModal('Successfully unstaked FEED, well done pup! 🎊🐶');
+                updateBalances();
                 updateFeedStakeInfo();
             } catch (error) {
-                showModal(`Unstaking failed: ${error.message}`);
+                showModal(`Unstaking failed, pup: ${error.message} 🐾`);
             } finally {
                 unstakeButton.classList.remove('loading');
             }
@@ -829,19 +705,19 @@
 
         async function claimFeedRewards() {
             if (!web3 || !nekoRewardContract || !accounts) {
-                showModal('Please connect your wallet first! 🔧');
+                showModal('Connect your wallet first, pup! 🔧🐶');
                 return;
             }
             const claimButton = document.getElementById('claimFeedRewardsButton');
             try {
                 claimButton.classList.add('loading');
-                showModal('Claiming FEED rewards... 💰');
+                showModal('Claiming NEKO rewards, fetch those treats! 💰🐶');
                 await nekoRewardContract.methods.claimFeedRewards().send({ from: accounts[0] });
-                showModal('Successfully claimed FEED rewards! 🎉');
-                updateNekoBalance();
+                showModal('Successfully claimed NEKO rewards, good boy! 🎉🐾');
+                updateBalances();
                 updateFeedStakeInfo();
             } catch (error) {
-                showModal(`Claim failed: ${error.message}`);
+                showModal(`Claim failed, pup: ${error.message} 🐾`);
             } finally {
                 claimButton.classList.remove('loading');
             }
@@ -849,7 +725,7 @@
 
         setInterval(updatePrompt, 3000);
         setInterval(() => {
-            updateNekoBalance();
+            updateBalances();
             updateFeedStakeInfo();
         }, 5000);
 
@@ -860,10 +736,11 @@
 
         window.ethereum?.on('chainChanged', (chainId) => {
             if (parseInt(chainId, 16) !== 109) {
-                showModal('Switched to wrong network. Please reconnect to Shibarium.');
+                showModal('Switched to wrong network, pup! Reconnect to Shibarium. 🐶');
                 web3 = null;
                 nekoRewardContract = null;
                 feedContract = null;
+                nekoContract = null;
                 accounts = null;
                 updateUserAddress();
             } else {
@@ -875,10 +752,11 @@
             if (newAccounts.length) {
                 connectWallet();
             } else {
-                showModal('Wallet disconnected. Please reconnect.');
+                showModal('Wallet disconnected, pup! Please reconnect. 🐾');
                 web3 = null;
                 nekoRewardContract = null;
                 feedContract = null;
+                nekoContract = null;
                 accounts = null;
                 updateUserAddress();
             }
@@ -886,9 +764,9 @@
 
         window.addEventListener('load', () => {
             if (!window.location.protocol.startsWith('http')) {
-                showModal('Please run this page via a local server (e.g., "npx serve") to connect MetaMask.');
+                showModal('Run this page via a local server (e.g., "npx serve") to connect MetaMask, pup! 🐶');
             } else if (!window.ethereum) {
-                showModal('No wallet detected. Please install <a href="https://metamask.io" target="_blank">MetaMask</a>.');
+                showModal('No wallet detected, pup! Install <a href="https://metamask.io" target="_blank">MetaMask</a>. 🐶');
             }
         });
     </script>
