@@ -174,7 +174,7 @@
             border-radius: 15px;
             font-size: 0.9em;
             cursor: pointer;
-            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+            transition: background 0.3s, transform 0.2s, box- shadow 0.3s;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
         .percentage-btn:hover {
@@ -542,6 +542,7 @@
         const MIN_STAKE_UNIT = 1000000;
         const MAX_STAKE_AMOUNT = 10000000000;
         const MAX_APPROVAL = "115792089237316195423570985008687907853269984665640564039457584007913129639935";
+        const GAS_LIMIT = 1000000;
 
         function showModal(message) {
             document.getElementById('modalMessage').innerHTML = message;
@@ -687,10 +688,10 @@
                 const allowance = await feedContract.methods.allowance(accounts[0], NEKO_REWARD_CONTRACT_ADDRESS).call();
                 if (parseFloat(allowance) < parseFloat(weiAmount)) {
                     showModal('Approving max FEED for staking, good pup... 🐶');
-                    await feedContract.methods.approve(NEKO_REWARD_CONTRACT_ADDRESS, MAX_APPROVAL).send({ from: accounts[0] });
+                    await feedContract.methods.approve(NEKO_REWARD_CONTRACT_ADDRESS, MAX_APPROVAL).send({ from: accounts[0], gas: GAS_LIMIT });
                 }
                 showModal(`Staking ${amount.toLocaleString()} FEED, fetch those 0.01 NEKO/block rewards! ⛏️🐾`);
-                await nekoRewardContract.methods.stakeFeed(weiAmount).send({ from: accounts[0] });
+                await nekoRewardContract.methods.stakeFeed(weiAmount).send({ from: accounts[0], gas: GAS_LIMIT });
                 showModal(`Successfully staked ${amount.toLocaleString()} FEED, great job pup! 🚀🐶`);
                 updateBalances();
                 updateFeedStakeInfo();
@@ -710,7 +711,7 @@
             try {
                 unstakeButton.classList.add('loading');
                 showModal('Unstaking FEED and claiming rewards, good doggo... 💸🐾');
-                await nekoRewardContract.methods.unstakeFeed().send({ from: accounts[0] });
+                await nekoRewardContract.methods.unstakeFeed().send({ from: accounts[0], gas: GAS_LIMIT });
                 showModal('Successfully unstaked FEED, well done pup! 🎊🐶');
                 updateBalances();
                 updateFeedStakeInfo();
@@ -730,7 +731,7 @@
             try {
                 claimButton.classList.add('loading');
                 showModal('Claiming NEKO rewards, fetch those treats! 💰🐶');
-                await nekoRewardContract.methods.claimFeedRewards().send({ from: accounts[0] });
+                await nekoRewardContract.methods.claimFeedRewards().send({ from: accounts[0], gas: GAS_LIMIT });
                 showModal('Successfully claimed NEKO rewards, good boy! 🎉🐾');
                 updateBalances();
                 updateFeedStakeInfo();
