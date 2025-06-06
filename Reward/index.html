@@ -272,7 +272,7 @@
         <div class="section" id="feedStakeSection">
             <div class="section-title">Stake FEED 🐾</div>
             <div class="input-group">
-                <input type="number" id="stakeFeedAmountInput" placeholder="Amount (Multiple of 1M FEED)">
+                <input type="number" id="stakeFeedAmountInput" placeholder="Amount (Multiple of 1,000,000 FEED)">
             </div>
             <div class="percentage-buttons">
                 <button class="percentage-btn" onclick="setFeedStakePercentage(25)">25%</button>
@@ -285,7 +285,7 @@
                 <button id="unstakeFeedButton" disabled>Unstake 🐾</button>
                 <button id="claimFeedRewardsButton" disabled>Claim Rewards 💰</button>
             </div>
-            <div class="info-panel" id="feedStakeInfo">FEED Staked: None<br>Rewards: 0 NEKO</div>
+            <div class="info-panel" id="feedStakeInfo">FEED Staked: None<br>Rewards: 0 NEKO<br>Max Stake: 10,000,000,000 FEED</div>
         </div>
     </div>
     <footer>Powered by Shibarium 🐶 © 2025</footer>
@@ -298,7 +298,7 @@
     <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
     <script>
         let web3, accounts, nekoRewardContract, feedContract, nekoContract;
-        const NEKO_REWARD_CONTRACT_ADDRESS = "0xAF2f92CebA4A03c35aa72CD5Fd9c85294032D80a";
+        const NEKO_REWARD_CONTRACT_ADDRESS = "0x4a46C19397E8b40DaF2206B13D6f2ff5123ef720";
         const FEED_CONTRACT_ADDRESS = "0xe9Cb2D7ADC24Fc59FE00D6C0A0669BDF16805Fe0";
         const NEKO_CONTRACT_ADDRESS = "0x63A67329f761517570345eE86f791F74f9DC5461";
         const NEKO_REWARD_ABI = [
@@ -371,6 +371,13 @@
             {
                 "inputs": [],
                 "name": "MIN_STAKE_UNIT",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "MAX_STAKE_AMOUNT",
                 "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
                 "stateMutability": "view",
                 "type": "function"
@@ -525,14 +532,15 @@
             blockExplorerUrls: ['https://shibariumscan.io']
         };
         const prompts = [
-            "🐶 Stake FEED to earn NEKO treats!",
+            "🐶 Stake FEED to earn 0.01 NEKO per block per 1M FEED!",
             "🐾 Dig for NEKO rewards, good pup!",
             "⚡ Power up your staking, Shiba style!",
-            "🚀 Stake FEED and fetch NEKO bones!",
+            "🚀 Stake up to 10B FEED and fetch NEKO bones!",
             "🔥 Bark for rewards, stake now!"
         ];
         let promptIndex = 0;
         const MIN_STAKE_UNIT = 1000000;
+        const MAX_STAKE_AMOUNT = 10000000000;
         const MAX_APPROVAL = "115792089237316195423570985008687907853269984665640564039457584007913129639935";
 
         function showModal(message) {
@@ -559,7 +567,7 @@
 
         async function updateFeedStakeInfo() {
             if (!web3 || !nekoRewardContract || !accounts) {
-                document.getElementById('feedStakeInfo').innerHTML = 'FEED Staked: None<br>Rewards: 0 NEKO';
+                document.getElementById('feedStakeInfo').innerHTML = `FEED Staked: None<br>Rewards: 0 NEKO<br>Max Stake: ${MAX_STAKE_AMOUNT.toLocaleString()} FEED`;
                 document.getElementById('unstakeFeedButton').disabled = true;
                 document.getElementById('claimFeedRewardsButton').disabled = true;
                 return;
@@ -567,7 +575,7 @@
             const stakeInfo = await nekoRewardContract.methods.getFeedStakeInfo(accounts[0]).call();
             const amount = stakeInfo[0] === '0' ? 'None' : parseFloat(web3.utils.fromWei(stakeInfo[0], 'ether')).toFixed(2);
             const reward = parseFloat(web3.utils.fromWei(stakeInfo[2], 'ether')).toFixed(4);
-            document.getElementById('feedStakeInfo').innerHTML = `FEED Staked: ${amount}<br>Rewards: ${reward} NEKO`;
+            document.getElementById('feedStakeInfo').innerHTML = `FEED Staked: ${amount}<br>Rewards: ${reward} NEKO<br>Max Stake: ${MAX_STAKE_AMOUNT.toLocaleString()} FEED`;
             document.getElementById('unstakeFeedButton').disabled = stakeInfo[0] === '0';
             document.getElementById('claimFeedRewardsButton').disabled = stakeInfo[0] === '0' || stakeInfo[2] === '0';
         }
@@ -638,16 +646,19 @@
             try {
                 const balance = await feedContract.methods.balanceOf(accounts[0]).call();
                 const balanceEther = parseFloat(web3.utils.fromWei(balance, 'ether'));
-                const maxUnits = Math.floor(balanceEther / MIN_STAKE_UNIT);
+                const stakeInfo = await nekoRewardContract.methods.getFeedStakeInfo(accounts[0]).call();
+                const currentStaked = parseFloat(web3.utils.fromWei(stakeInfo[0], 'ether'));
+                const availableToStake = Math.min(balanceEther, MAX_STAKE_AMOUNT - currentStaked);
+                const maxUnits = Math.floor(availableToStake / MIN_STAKE_UNIT);
                 if (maxUnits < 1) {
                     document.getElementById('stakeFeedAmountInput').value = 0;
-                    showModal('Not enough FEED, pup! Need at least 1M FEED. 🐾');
+                    showModal('Not enough FEED or max stake reached, pup! Need at least 1M FEED. 🐾');
                     return;
                 }
                 const units = Math.floor(maxUnits * percentage / 100);
                 const stakeAmount = units * MIN_STAKE_UNIT;
                 document.getElementById('stakeFeedAmountInput').value = stakeAmount;
-                showModal(`Set to stake ${stakeAmount} FEED (${percentage}%), good choice! 🐶`);
+                showModal(`Set to stake ${stakeAmount.toLocaleString()} FEED (${percentage}%), good choice! 🐶`);
             } catch (error) {
                 showModal(`Failed to fetch balance, pup: ${error.message} 🐾`);
             }
@@ -661,10 +672,16 @@
             const stakeButton = document.getElementById('stakeFeedButton');
             const amount = parseFloat(document.getElementById('stakeFeedAmountInput').value);
             if (!amount || amount < MIN_STAKE_UNIT || amount % MIN_STAKE_UNIT !== 0) {
-                showModal(`Amount must be a multiple of ${MIN_STAKE_UNIT} FEED, pup! 🐾`);
+                showModal(`Amount must be a multiple of ${MIN_STAKE_UNIT.toLocaleString()} FEED, pup! 🐾`);
                 return;
             }
             try {
+                const stakeInfo = await nekoRewardContract.methods.getFeedStakeInfo(accounts[0]).call();
+                const currentStaked = parseFloat(web3.utils.fromWei(stakeInfo[0], 'ether'));
+                if (currentStaked + amount > MAX_STAKE_AMOUNT) {
+                    showModal(`Total stake cannot exceed ${MAX_STAKE_AMOUNT.toLocaleString()} FEED, pup! 🐾`);
+                    return;
+                }
                 stakeButton.classList.add('loading');
                 const weiAmount = web3.utils.toWei(amount.toString(), 'ether');
                 const allowance = await feedContract.methods.allowance(accounts[0], NEKO_REWARD_CONTRACT_ADDRESS).call();
@@ -672,9 +689,9 @@
                     showModal('Approving max FEED for staking, good pup... 🐶');
                     await feedContract.methods.approve(NEKO_REWARD_CONTRACT_ADDRESS, MAX_APPROVAL).send({ from: accounts[0] });
                 }
-                showModal(`Staking ${amount} FEED, fetch those rewards! ⛏️🐾`);
+                showModal(`Staking ${amount.toLocaleString()} FEED, fetch those 0.01 NEKO/block rewards! ⛏️🐾`);
                 await nekoRewardContract.methods.stakeFeed(weiAmount).send({ from: accounts[0] });
-                showModal(`Successfully staked ${amount} FEED, great job pup! 🚀🐶`);
+                showModal(`Successfully staked ${amount.toLocaleString()} FEED, great job pup! 🚀🐶`);
                 updateBalances();
                 updateFeedStakeInfo();
             } catch (error) {
